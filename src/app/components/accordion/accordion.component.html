@@ -1,163 +1,167 @@
-<div class="w-full max-w-3xl mx-auto my-10 p-3 dark:bg-neutral-950 rounded-2xl">
-  <h2 class="text-2xl font-bold mb-6 text-white">Preguntas Frecuentes</h2>
-
-  <div id="accordion-collapse" data-accordion="collapse">
-    <h2 id="accordion-collapse-heading-1">
-      <button
-        type="button"
-        class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
-        data-accordion-target="#accordion-collapse-body-1"
-        aria-expanded="true"
-        aria-controls="accordion-collapse-body-1"
-      >
-        <span>What is Flowbite?</span>
-        <svg
-          data-accordion-icon
-          class="w-3 h-3 rotate-180 shrink-0"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 10 6"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 5 5 1 1 5"
-          />
-        </svg>
-      </button>
-    </h2>
-    <div
-      id="accordion-collapse-body-1"
-      class="hidden"
-      aria-labelledby="accordion-collapse-heading-1"
-    >
-      <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-        <p class="mb-2 text-gray-500 dark:text-gray-400">
-          Flowbite is an open-source library of interactive components built on top of Tailwind CSS
-          including buttons, dropdowns, modals, navbars, and more.
-        </p>
-        <p class="text-gray-500 dark:text-gray-400">
-          Check out this guide to learn how to
-          <a
-            href="/docs/getting-started/introduction/"
-            class="text-blue-600 dark:text-blue-500 hover:underline"
-            >get started</a
-          >
-          and start developing websites even faster with components on top of Tailwind CSS.
-        </p>
-      </div>
+<div
+  class="relative w-full border-0 sm:border border-lime-700 px-6 pt-10 pb-8 mt-8 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-2xl sm:rounded-lg sm:px-10"
+>
+  <div class="mx-auto px-5">
+    <div class="flex flex-col items-center">
+      <h2 class="mt-5 text-center text-lime-600 text-3xl font-bold tracking-tight md:text-5xl">
+        FAQ
+      </h2>
+      <p class="mt-3 text-lg text-neutral-500 md:text-xl">Resolvemos tus dudas más comunes</p>
     </div>
-    <h2 id="accordion-collapse-heading-2">
-      <button
-        type="button"
-        class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
-        data-accordion-target="#accordion-collapse-body-2"
-        aria-expanded="false"
-        aria-controls="accordion-collapse-body-2"
-      >
-        <span>Is there a Figma file available?</span>
-        <svg
-          data-accordion-icon
-          class="w-3 h-3 rotate-180 shrink-0"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 10 6"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 5 5 1 1 5"
-          />
-        </svg>
-      </button>
-    </h2>
-    <div
-      id="accordion-collapse-body-2"
-      class="hidden"
-      aria-labelledby="accordion-collapse-heading-2"
-    >
-      <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700">
-        <p class="mb-2 text-gray-500 dark:text-gray-400">
-          Flowbite is first conceptualized and designed using the Figma software so everything you
-          see in the library has a design equivalent in our Figma file.
-        </p>
-        <p class="text-gray-500 dark:text-gray-400">
-          Check out the
-          <a
-            href="https://flowbite.com/figma/"
-            class="text-blue-600 dark:text-blue-500 hover:underline"
-            >Figma design system</a
-          >
-          based on the utility classes from Tailwind CSS and components from Flowbite.
-        </p>
+    <div class="mx-auto mt-8 grid max-w-xl divide-y divide-lime-800">
+      <div class="py-5">
+        <details class="group">
+          <summary class="flex cursor-pointer list-none items-center justify-between font-medium">
+            <span class="text-white">¿Cómo puedo registrarme en la plataforma?</span>
+            <span class="transition group-open:rotate-180">
+              <svg
+                fill="none"
+                height="24"
+                shape-rendering="geometricPrecision"
+                class="stroke-lime-600"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+                width="24"
+              >
+                <path d="M6 9l6 6 6-6"></path>
+              </svg>
+            </span>
+          </summary>
+          <p class="group-open:animate-fadeIn mt-3 text-white">
+            Solo necesitas crear una cuenta con tu nombre, correo electrónico y contraseña para
+            empezar a reservar.
+          </p>
+        </details>
       </div>
-    </div>
-    <h2 id="accordion-collapse-heading-3">
-      <button
-        type="button"
-        class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
-        data-accordion-target="#accordion-collapse-body-3"
-        aria-expanded="false"
-        aria-controls="accordion-collapse-body-3"
-      >
-        <span>What are the differences between Flowbite and Tailwind UI?</span>
-        <svg
-          data-accordion-icon
-          class="w-3 h-3 rotate-180 shrink-0"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 10 6"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 5 5 1 1 5"
-          />
-        </svg>
-      </button>
-    </h2>
-    <div
-      id="accordion-collapse-body-3"
-      class="hidden"
-      aria-labelledby="accordion-collapse-heading-3"
-    >
-      <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
-        <p class="mb-2 text-gray-500 dark:text-gray-400">
-          The main difference is that the core components from Flowbite are open source under the
-          MIT license, whereas Tailwind UI is a paid product. Another difference is that Flowbite
-          relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.
-        </p>
-        <p class="mb-2 text-gray-500 dark:text-gray-400">
-          However, we actually recommend using both Flowbite, Flowbite Pro, and even Tailwind UI as
-          there is no technical reason stopping you from using the best of two worlds.
-        </p>
-        <p class="mb-2 text-gray-500 dark:text-gray-400">Learn more about these technologies:</p>
-        <ul class="ps-5 text-gray-500 list-disc dark:text-gray-400">
-          <li>
-            <a
-              href="https://flowbite.com/pro/"
-              class="text-blue-600 dark:text-blue-500 hover:underline"
-              >Flowbite Pro</a
-            >
-          </li>
-          <li>
-            <a
-              href="https://tailwindui.com/"
-              rel="nofollow"
-              class="text-blue-600 dark:text-blue-500 hover:underline"
-              >Tailwind UI</a
-            >
-          </li>
-        </ul>
+      <div class="py-5">
+        <details class="group">
+          <summary class="flex cursor-pointer list-none items-center justify-between font-medium">
+            <span class="text-white">¿Cómo reservo una cancha?</span>
+            <span class="transition group-open:rotate-180">
+              <svg
+                fill="none"
+                height="24"
+                shape-rendering="geometricPrecision"
+                class="stroke-lime-600"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+                width="24"
+              >
+                <path d="M6 9l6 6 6-6"></path>
+              </svg>
+            </span>
+          </summary>
+          <p class="group-open:animate-fadeIn mt-3 text-white">
+            Desde tu cuenta selecciona la sede, la cancha y el horario disponible. El sistema
+            validará que no haya reservas duplicadas.
+          </p>
+        </details>
+      </div>
+      <div class="py-5">
+        <details class="group">
+          <summary class="flex cursor-pointer list-none items-center justify-between font-medium">
+            <span class="text-white">¿Cómo funciona el sistema de recompensas?</span>
+            <span class="transition group-open:rotate-180">
+              <svg
+                fill="none"
+                height="24"
+                shape-rendering="geometricPrecision"
+                class="stroke-lime-600"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+                width="24"
+              >
+                <path d="M6 9l6 6 6-6"></path>
+              </svg>
+            </span>
+          </summary>
+          <p class="group-open:animate-fadeIn mt-3 text-white">
+            Cada vez que pagues una reserva acumularás puntos automáticamente. Luego podrás
+            canjearlos por descuentos o beneficios .
+          </p>
+        </details>
+      </div>
+      <div class="py-5">
+        <details class="group">
+          <summary class="flex cursor-pointer list-none items-center justify-between font-medium">
+            <span class="text-white">¿Puedo cancelar o modificar mi reserva?</span>
+            <span class="transition group-open:rotate-180">
+              <svg
+                fill="none"
+                height="24"
+                shape-rendering="geometricPrecision"
+                class="stroke-lime-600"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+                width="24"
+              >
+                <path d="M6 9l6 6 6-6"></path>
+              </svg>
+            </span>
+          </summary>
+          <p class="group-open:animate-fadeIn mt-3 text-white">
+            Sí, desde tu historial puedes solicitar cambios o cancelaciones, de acuerdo con las
+            políticas de cada cancha .
+          </p>
+        </details>
+      </div>
+      <div class="py-5">
+        <details class="group">
+          <summary class="flex cursor-pointer list-none items-center justify-between font-medium">
+            <span class="text-white">¿Puedo ver el historial de mis reservas pasadas?</span>
+            <span class="transition group-open:rotate-180">
+              <svg
+                fill="none"
+                height="24"
+                shape-rendering="geometricPrecision"
+                class="stroke-lime-600"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+                width="24"
+              >
+                <path d="M6 9l6 6 6-6"></path>
+              </svg>
+            </span>
+          </summary>
+          <p class="group-open:animate-fadeIn mt-3 text-white">
+            Sí, puedes consultar todas tus reservas anteriores y exportarlas en Excel .
+          </p>
+        </details>
+      </div>
+      <div class="py-5">
+        <details class="group">
+          <summary class="flex cursor-pointer list-none items-center justify-between font-medium">
+            <span class="text-white">¿Dónde veo mis puntos acumulados?</span>
+            <span class="transition group-open:rotate-180">
+              <svg
+                fill="none"
+                height="24"
+                shape-rendering="geometricPrecision"
+                class="stroke-lime-600"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+                width="24"
+              >
+                <path d="M6 9l6 6 6-6"></path>
+              </svg>
+            </span>
+          </summary>
+          <p class="group-open:animate-fadeIn mt-3 text-white">
+            En tu perfil encontrarás tu saldo de puntos y las recompensas disponibles para canje .
+          </p>
+        </details>
       </div>
     </div>
   </div>
