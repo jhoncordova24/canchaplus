@@ -1,4 +1,31 @@
-@import "tailwindcss";
-@import "flowbite/src/themes/default";
+@import 'tailwindcss';
+@import 'flowbite/src/themes/default';
 @plugin "flowbite/plugin";
 @source "../node_modules/flowbite";
+
+@theme {
+}
+
+@layer {
+  .btn-calendar-controls {
+    @apply transition-colors duration-300 bg-lime-500 rounded-md px-2 py-1 text-white hover:text-lime-500 hover:bg-white hover:outline hover:outline-lime-500 hover:cursor-pointer;
+  }
+  .btn-menu-a {
+    @apply grid md:grid-cols-[3vw_1fr] md:pl-4 content-center items-center px-1 py-2 mx-1 md:mx-4 block text-white rounded-md hover:bg-[#81a9d3] transition-colors duration-300;
+  }
+  .icons-menu-responsive {
+    @apply scale-[1.8] md:scale-[1.3];
+  }
+  .input-forms {
+    @apply flex-1 w-full p-2 rounded-r-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-transparent min-[430px]:placeholder:text-gray-500;
+  }
+  .btn-submenu-a {
+    @apply text-white cursor-pointer hover:bg-teal-500 px-4 py-2 rounded transition-colors duration-300;
+  }
+  .btn-red-cancelar {
+    @apply bg-red-700 px-4 py-2 rounded-md text-white transition-colors duration-300 cursor-pointer hover:bg-red-900 font-bold;
+  }
+  .btn-azul-aceptar {
+    @apply bg-blue-600 py-2 px-4 rounded-md  text-white transition-colors duration-300 cursor-pointer hover:bg-blue-800 font-bold;
+  }
+}

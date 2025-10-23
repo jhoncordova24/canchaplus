@@ -1,4 +1,4 @@
-<body class="flex items-center justify-center pt-6">
+<section class="flex items-center justify-center pt-6 mb-6">
     <div class="w-full max-w-[1200px] bg-neutral-900 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
         <!-- Left Section -->
         <div class="w-full md:w-1/2 relative">
@@ -14,60 +14,102 @@
         </div>
 
         <!-- Right Section -->
-        <div class="w-full md:w-1/2 p-6 md:p-12">
-            <div class="max-w-md mx-auto">
+        <div class="w-full md:w-1/2 py-6 px-4 md:py-12 md:px-10">
+            <div class="max-w-[90%] mx-auto">
                 <h1 class="text-white text-2xl md:text-4xl font-semibold mb-2">Regístrate</h1>
                 <p class="text-gray-400 mb-8">
                     ¿Ya tienes una cuenta?
                     <a routerLink="/landing/login" class="text-white hover:underline">Inicia sesión</a>
                 </p>
 
-                <form class="space-y-4">
+                <form class="space-y-4" [formGroup]="form" (ngSubmit)="register()">
                     <!-- Nombre completo -->
-                    <input type="text" placeholder="Ingresa tu nombre completo"
-                        class="w-full bg-neutral-900 border border-gray-700 text-white placeholder-gray-500 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-lime-600 focus:border-lime-600" />
-
-                    <!-- Nombre de usuario -->
-                    <input type="text" placeholder="Ingresa tu nombre de usuario"
+                    @if(this.form.get("usuario_nombres")!.dirty &&
+                    this.form.get("usuario_nombres")!.hasError("required")){
+                    <span class="text-red-700 font-semibold text-[0.8rem]">Este campo es obligatorio</span>}
+                    <input type="text" placeholder="Ingresa tu nombre completo" formControlName="usuario_nombres"
                         class="w-full bg-neutral-900 border border-gray-700 text-white placeholder-gray-500 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-lime-600 focus:border-lime-600" />
 
                     <!-- Email -->
-                    <input type="email" placeholder="Ingresa tu correo electrónico"
+                    @if(this.form.get("usuario_correo")!.dirty &&
+                    this.form.get("usuario_correo")!.hasError("required")){
+                    <span class="text-red-700 font-semibold mb-0 block text-[0.8rem]">Este campo es obligatorio</span>}
+                    @if(this.form.get("usuario_correo")!.dirty && this.form.get("usuario_correo")!.hasError("email")){
+                    <span class="text-red-700 font-semibold mb-0 block text-[0.8rem]">Formato de correo no
+                        válido</span>}
+                    <input type="email" placeholder="Ingresa tu correo electrónico" formControlName="usuario_correo"
+                        class="w-full bg-neutral-900 border border-gray-700 text-white placeholder-gray-500 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-lime-600 focus:border-lime-600" />
+
+                    <!-- Telefono -->
+                    @if(this.form.get("usuario_telefono")!.dirty &&
+                    this.form.get("usuario_telefono")!.hasError("required")){
+                    <span class="text-red-700 font-semibold text-[0.8rem]">Este campo es obligatorio</span>}
+                    @if(this.form.get("usuario_telefono")!.dirty &&
+                    this.form.get("usuario_telefono")!.hasError("soloNumeros")){
+                    <span class="text-red-700 font-semibold text-[0.8rem]">Número de telefono no válido</span>}
+                    <input type="text" placeholder="Ingresa tu número de telefono" formControlName="usuario_telefono"
                         class="w-full bg-neutral-900 border border-gray-700 text-white placeholder-gray-500 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-lime-600 focus:border-lime-600" />
 
                     <!-- Contraseña -->
-                    <div class="relative">
-                        <input type="password" placeholder="Crea una contraseña"
-                            class="w-full bg-neutral-900 border border-gray-700 text-white placeholder-gray-500 rounded-lg p-3 pr-10 focus:outline-none focus:ring-2 focus:ring-lime-600 focus:border-lime-600" />
-                        <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </button>
+                    <div>
+                        @if(this.form.get("password")!.dirty && this.form.get("password")!.hasError("required")){
+                        <span class="text-red-700 font-semibold text-[0.8rem]">Este campo es obligatorio</span>}
+                        @if(this.form.get("password")!.dirty &&
+                        this.form.get("password")!.hasError("passwordWeak")){
+                        <span class="text-red-700 font-semibold text-[0.8rem]">Debe contener al menos
+                            8 caracteres, una mayúscula, un número y un símbolo</span>}
+                        <div
+                            class="grid grid-cols-[93%_1fr] border border-gray-700 text-white placeholder-gray-500 rounded-lg has-focus:outline-none has-focus:ring-2 has-focus:ring-lime-600 has-focus:focus:border-lime-600">
+                            <input [type]="mostrarPassword ? 'text' : 'password'" placeholder="Crea una contraseña"
+                                formControlName="password"
+                                class="w-full bg-neutral-900 border-none text-white placeholder-gray-500 rounded-lg p-3 pr-10 focus:outline-none focus:ring-0" />
+                            <button type="button" (click)="showPassword(this.form.get('password')!)"
+                                class="cursor-pointer">
+                                <svg xmlns=" http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Confirmar contraseña -->
-                    <div class="relative">
-                        <input type="password" placeholder="Confirma tu contraseña"
-                            class="w-full bg-neutral-900 border border-gray-700 text-white placeholder-gray-500 rounded-lg p-3 pr-10 focus:outline-none focus:ring-2 focus:ring-lime-600 focus:border-lime-600" />
-                        <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </button>
+                    <div>
+                        @if(this.form.get("confirmPassword")!.dirty &&
+                        this.form.get("confirmPassword")!.hasError("required")){
+                        <span class="text-red-700 font-semibold mb-0 block text-[0.8rem]">Este campo es
+                            obligatorio</span>}
+                        @if(this.form.get("confirmPassword")!.dirty &&
+                        this.form.hasError("passwordMismatch")){
+                        <span class="text-red-700 font-semibold mb-0 block text-[0.8rem]">Las contraseñas no
+                            coinciden</span>}
+                        <div
+                            class="grid grid-cols-[93%_1fr] border border-gray-700 text-white placeholder-gray-500 rounded-lg has-focus:outline-none has-focus:ring-2 has-focus:ring-lime-600 has-focus:focus:border-lime-600">
+                            <input [type]="mostrarConfirmPassword ? 'text' : 'password'"
+                                placeholder="Confirma tu contraseña" formControlName="confirmPassword"
+                                class="w-full bg-neutral-900 border-none text-white placeholder-gray-500 rounded-lg p-3 pr-10 focus:outline-none focus:ring-0" />
+                            <button type="button" (click)="showConfirmPassword(this.form.get('confirmPassword')!)"
+                                class="cursor-pointer">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Aceptar términos -->
+                    @if(this.form.get("terms")!.dirty && this.form.get("terms")!.hasError("required")){
+                    <span class="text-red-700 font-semibold text-[0.8rem]">Debes aceptar los términos y
+                        condiciones</span>}
                     <label class="flex items-center space-x-2 cursor-pointer">
-                        <input type="checkbox"
+                        <input type="checkbox" formControlName="terms"
                             class="rounded bg-neutral-900 border-gray-600 text-lime-600 focus:ring-lime-600" />
                         <span class="text-gray-400">
                             Acepto los
@@ -77,11 +119,11 @@
 
                     <!-- Botón de registro -->
                     <button type="submit"
-                        class="w-full bg-lime-600 text-white rounded-lg p-3 hover:bg-lime-700 transition-colors">
+                        class="w-full bg-lime-600 text-white rounded-lg p-3 hover:bg-lime-700 transition-colors cursor-pointer">
                         Crear cuenta
                     </button>
                 </form>
             </div>
         </div>
     </div>
-</body>
+</section>

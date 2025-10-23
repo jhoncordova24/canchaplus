@@ -1,10 +1,10 @@
-<!-- <div class="mx-auto p-8">
+<div class="mx-auto p-8">
     <div class="bg-white shadow-md rounded-lg p-6">
         <div class="mx-2 my-4">
             <label for="fechaBuscar" class="block text-gray-700 font-semibold">Ir a fecha: </label>
             <div class="flex items-center border border-gray-300 rounded-md bg-gray-50 max-w-[200px]">
                 <span class="inline-block w-10 text-center text-gray-500">
-                    <mat-icon>event</mat-icon>
+                    <!-- <mat-icon>event</mat-icon> -->
                 </span>
                 <input type="date" id="fechaNacimiento" name="fechaBuscar" class="input-forms">
             </div>
@@ -43,7 +43,8 @@
             </div>
         </div>
         <br />
-        @if(events$ | async ; as events){
+        <!-- @if(events$ | async ; as events){ -->
+         @if(events){
         <div>
             @switch (view) {
             @case (CalendarView.Month) {
@@ -66,9 +67,8 @@
         </div>
         }@else {
         <div class="grid justify-items-center">
-            <mat-spinner class="spinner" color="primary"></mat-spinner>
+            <!-- <mat-spinner class="spinner" color="primary"></mat-spinner> -->
             <p> Recuperando información...</p>
         </div>}
     </div>
-</div> -->
-<p>Calendario works!</p>
+</div>

@@ -1,4 +1,4 @@
-<body class="flex items-center justify-center pt-6">
+<section class="flex items-center justify-center py-6">
     <div class="w-full max-w-[1200px] bg-neutral-900 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
         <!-- Left Section -->
         <div class="w-full md:w-1/2 relative">
@@ -22,13 +22,15 @@
                     <a routerLink="/landing/register" class="text-white hover:underline">Registrate</a>
                 </p>
 
-                <form class="space-y-4">
-                    <input type="text" placeholder="Ingresa tu nombre de usuario"
+                <form [formGroup]="form" class="space-y-4" (ngSubmit)="login()">
+                    <input type="text" placeholder="Ingresa tu nombre de usuario" formControlName="usuario_correo"
                         class="w-full bg-neutral-900 border border-gray-700 text-white placeholder-gray-500 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-lime-600 focus:border-lime-600" />
                     <div class="relative">
-                        <input type="password" placeholder="Ingresa tu contraseña"
+                        <input [type]="mostrarPassword ? 'text': 'password' " placeholder="Ingresa tu contraseña"
+                            formControlName="password"
                             class="w-full bg-neutral-900 border border-gray-700 text-white placeholder-gray-500 rounded-lg p-3 pr-10 focus:outline-none focus:ring-2 focus:ring-lime-600 focus:border-lime-600" />
-                        <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2">
+                        <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                            (click)="showPassword(this.form.get('password')!)">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -38,18 +40,20 @@
                             </svg>
                         </button>
                     </div>
-                    <label class="flex items-center space-x-2 cursor-pointer">
+                    <!-- <label class="flex items-center space-x-2 cursor-pointer">
                         <input type="checkbox"
                             class="rounded bg-[#1c1c24] border-gray-600 text-lime-600 focus:ring-lime-600" />
                         <span class="text-gray-400">Estoy de acuerdo con los
                             <a href="#" class="text-white hover:underline">Términos y condiciones</a></span>
-                    </label>
-                    <button type="submit"
-                        class="w-full bg-lime-600 text-white rounded-lg p-3 hover:bg-lime-700 transition-colors">
+                    </label> -->
+                    @if(authFail){
+                    <span class="block m-auto mb-2 text-red-700 font-semibold">Credenciales incorrectas</span>
+                    }<button type="submit"
+                        class="cursor-pointer w-full bg-lime-600 text-white rounded-lg p-3 hover:bg-lime-700 transition-colors">
                         Iniciar Sesión
                     </button>
                 </form>
             </div>
         </div>
     </div>
-</body>
+</section>
