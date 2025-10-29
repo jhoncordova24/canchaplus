@@ -1,9 +1,9 @@
 import { initFlowbite } from 'flowbite';
 import { Component, OnInit, inject } from '@angular/core';
-import { Router, RouterLink} from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../../core/services/user.service';
-import { AuthService } from '../../../core/services/auth.service';
 import { SidebarLink } from './sidebar-link.interface';
+import { User } from '../../../interfaces/user.interface';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,14 +13,18 @@ import { SidebarLink } from './sidebar-link.interface';
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent implements OnInit {
-   title = 'web-app';
+  usuario!: User;
+  private readonly userService = inject(UserService);
+  private readonly router = inject(Router);
 
   ngOnInit(): void {
     initFlowbite();
+    this.getUser();
   }
-  private readonly authService = inject(AuthService);
-  private readonly userService = inject(UserService);
-  private readonly router = inject(Router);
+
+  getUser() {
+    this.usuario = this.userService.getUser();
+  }
 
   links: SidebarLink[] = [
     {

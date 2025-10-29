@@ -1,0 +1,153 @@
+<div class="bg-gradient-to-b from-neutral-950 via-neutral-900 to-neutral-950 flex items-center justify-center p-8">
+  <div
+    class="w-full max-w-5xl bg-neutral-900/80 backdrop-blur-md border border-lime-500/30 rounded-3xl shadow-xl p-10 text-gray-100 mt-8">
+
+    <!-- 🧑 Cabecera de Perfil -->
+    <div class="flex flex-col md:flex-row items-center justify-between gap-8 mb-12">
+
+      <!-- Foto + Datos -->
+      <div class="flex items-center gap-6 w-full md:w-auto">
+        <img src="assets/icons/logo.png" alt="Avatar"
+          class="rounded-full w-28 h-28 border-2 border-lime-400 shadow-[0_0_25px_rgba(132,204,22,0.3)] object-cover" />
+        <div>
+          <h2 class="text-3xl font-bold text-white tracking-tight">
+            {{ usuario.usuario_nombres }}
+          </h2>
+          <p class="text-lime-400 font-medium mt-1 flex items-center gap-2">
+            <i class="fa-solid fa-envelope"></i> {{ usuario.usuario_correo }}
+          </p>
+          <p class="text-sm text-gray-400 flex items-center gap-2 mt-1">
+            <i class="fa-solid fa-user-tag"></i> {{ usuario.usuario_rolNombre }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Card de Puntos -->
+      <div
+        class="bg-neutral-800/50 border border-lime-400/30 rounded-2xl px-6 py-5 text-center shadow-inner w-full md:w-56">
+        <p class="text-xs text-gray-400 uppercase font-semibold">Puntos</p>
+        <p class="text-4xl font-extrabold text-lime-400 tracking-tight">{{ puntos }}</p>
+        <div class="w-full bg-neutral-700 h-2 rounded-full mt-3 overflow-hidden">
+          <div class="h-2 bg-lime-400 transition-all duration-500" [style.width.%]="porcentajeProgreso"></div>
+        </div>
+        <p class="text-xs text-gray-500 mt-1">{{ puntos }}/{{ puntosMax }}</p>
+      </div>
+    </div>
+
+    <!-- 🧾 Datos personales -->
+    <!-- @if(usuario){ -->
+    <div class="bg-neutral-900/60 border border-neutral-700/50 rounded-2xl p-6 mb-10">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-2xl font-bold text-lime-400 flex items-center gap-2">
+          <i class="fa-solid fa-id-card"></i> Datos personales
+        </h3>
+        @if(!editMode){
+        <button (click)="habilitarEdicion()"
+          class="bg-lime-500/80 hover:bg-lime-500 text-black font-semibold rounded-lg px-5 py-2 shadow-md hover:shadow-lime-400/30 transition-all duration-200 flex items-center gap-2">
+          <i class="fa-solid fa-pen"></i> Editar
+        </button>}
+      </div>
+
+      <!-- Vista o Edición -->
+      @if (!editMode) {
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <p class="text-xs text-gray-400 uppercase font-semibold mb-1">Nombres</p>
+          <p class="text-white font-medium bg-neutral-800/50 border border-neutral-700/40 rounded-lg px-4 py-3">
+            {{ usuario.usuario_nombres }}
+          </p>
+        </div>
+        <div>
+          <p class="text-xs text-gray-400 uppercase font-semibold mb-1">Correo</p>
+          <p class="text-white font-medium bg-neutral-800/50 border border-neutral-700/40 rounded-lg px-4 py-3">
+            {{ usuario.usuario_correo}}
+          </p>
+        </div>
+        <div>
+          <p class="text-xs text-gray-400 uppercase font-semibold mb-1">Telefono</p>
+          <p class="text-white font-medium bg-neutral-800/50 border border-neutral-700/40 rounded-lg px-4 py-3">
+            {{ usuario.usuario_telefono }}
+        </div>
+        <div>
+          <p class="text-xs text-gray-400 uppercase font-semibold mb-1">Fecha Registro</p>
+          <p class="text-white font-medium bg-neutral-800/50 border border-neutral-700/40 rounded-lg px-4 py-3">
+            {{ usuario.usuario_fecharegistro }}
+          </p>
+        </div>
+      </div>
+      }@else{
+      <!-- Formulario de Edición -->
+      <form [formGroup]="form" class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4" (ngSubmit)="guardar()">
+        <div>
+          <label class="block text-sm font-semibold text-lime-300 mb-2">Nombres</label>
+          <input type="text" formControlName="usuario_nombres"
+            class="w-full bg-neutral-800/60 border border-neutral-700 text-gray-100 placeholder-lime-500/40 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-lime-400 transition-all duration-150"
+            placeholder="Ingrese su nombre" />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-lime-300 mb-2">Correo</label>
+          <input type="email" formControlName="usuario_correo"
+            class="w-full bg-neutral-800/60 border border-neutral-700 text-gray-100 placeholder-lime-500/40 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-lime-400 transition-all duration-150"
+            placeholder="Ingrese su correo" />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-lime-300 mb-2">Teléfono</label>
+          <input type="tel" formControlName="usuario_telefono"
+            class="w-full bg-neutral-800/60 border border-neutral-700 text-gray-100 placeholder-lime-500/40 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-lime-400 transition-all duration-150"
+            placeholder="Ingrese su  télefono" />
+        </div>
+        <!-- Botones -->
+        <div class="col-span-full flex justify-end gap-4 pt-4">
+          <button type="button" (click)="cancelar()"
+            class="border border-red-600 text-red-400 hover:bg-red-600/20 hover:text-red-300 rounded-lg px-6 py-2 font-semibold transition-all duration-200 flex items-center gap-2">
+            <i class="fa-solid fa-xmark"></i> Cancelar
+          </button>
+          <button type="submit"
+            class="bg-lime-500/80 hover:bg-lime-500 text-black font-semibold rounded-lg px-6 py-2 shadow-lg hover:shadow-lime-400/30 transition-all duration-200 flex items-center gap-2">
+            <i class="fa-solid fa-floppy-disk"></i> Guardar
+          </button>
+        </div>
+      </form>}
+    </div>
+    <!-- }@else { -->
+    <span class="material-symbols-outlined spinner">
+      autorenew
+    </span>
+    <!-- } -->
+
+    <!-- 🏟️ Reservaciones -->
+    <!-- @if(reservas){ -->
+    <div>
+      <h3 class="text-2xl font-bold text-lime-400 mb-6 flex items-center gap-2">
+        <i class="fa-solid fa-futbol"></i> Mis últimas reservaciones
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        @for (reserva of ultimasReservas; track $index) {
+        <div
+          class="group bg-neutral-900/70 border border-lime-500/30 rounded-2xl p-6 shadow-md transition-all duration-300 hover:shadow-lime-400/30 hover:-translate-y-2">
+          <div class="flex justify-between items-start mb-3">
+            <h4 class="text-lg font-semibold text-white group-hover:text-lime-300 transition-colors">{{
+              reserva.cancha_nombre }}</h4>
+            <span class="text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide" [ngClass]="{
+                'bg-green-600/20 text-green-400 border border-green-500/30': reserva.estadoreserva_id == '2',
+                'bg-yellow-600/20 text-yellow-400 border border-yellow-500/30': reserva.estadoreserva_id == '1',
+                'bg-red-600/20 text-red-400 border border-red-500/30': reserva.estadoreserva_id === '3'
+              }">
+              {{ reserva.estadoreserva_nombre }}
+            </span>
+          </div>
+          <div class="text-sm text-gray-400 flex flex-col gap-1">
+            <p><i class="fa-solid fa-calendar-day text-lime-400 mr-2"></i>{{ reserva.reserva_fecha }}</p>
+            <p><i class="fa-solid fa-clock text-lime-400 mr-2"></i>{{ reserva.reserva_horainicio }} - {{
+              reserva.reserva_horafin }}</p>
+          </div>
+        </div>}
+      </div>
+    </div>
+    <!-- }@else { -->
+    <span class="material-symbols-outlined spinner">
+      autorenew
+    </span>
+    <!-- } -->
+  </div>
+</div>

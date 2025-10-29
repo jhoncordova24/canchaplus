@@ -1,5 +1,4 @@
-import { initFlowbite } from 'flowbite';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -8,6 +7,4 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.html',
   imports: [RouterOutlet],
 })
-export class App {
-  title = 'web-app';
-}
+export class App {}

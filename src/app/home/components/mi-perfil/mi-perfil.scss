@@ -1,0 +1,25 @@
+/* Inputs y labels */
+.input-field {
+  @apply w-full bg-neutral-800/60 border border-neutral-700 text-gray-100 
+         placeholder-lime-500/40 rounded-lg px-4 py-3 focus:outline-none 
+         focus:ring-2 focus:ring-lime-400 transition-all duration-150;
+}
+
+.label-field {
+  @apply block text-sm font-semibold text-lime-300 mb-2 flex items-center gap-2;
+}
+
+/* Animación sutil para hover */
+button {
+  transition: all 0.2s ease;
+}
+
+/* Efecto al pasar sobre campos */
+.group:hover .label-field i {
+  color: #bef264; /* lime-300 */
+}
+
+/* Sombras suaves para destacar el contenedor */
+.shadow-2xl {
+  box-shadow: 0 0 25px rgba(0, 255, 100, 0.1), 0 0 10px rgba(0, 255, 100, 0.05);
+}

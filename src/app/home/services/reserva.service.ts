@@ -15,11 +15,20 @@ export class ReservaService {
     return this._http.post(this.url + `/reserva/reservaAgregar`, data);
   }
 
-  getReservasByIdCancha(idCancha: string) {
+  getReservasByIdCancha(idCancha: string | number) {
     return this._http.get(this.url + `/reserva/reservaObtenerPorCancha/${idCancha}`);
   }
 
   getReservasById(id: string) {
     return this._http.get(this.url + `/reserva/reservaObtener/${id}`);
+  }
+
+  getReservasByIdUsuario(idUsuario: string | number, pagina: number, cantidadRegistros: number) {
+    return this._http.get(
+      this.url + `/reserva/reservaObtenerPorUsuario/${idUsuario}/${pagina}/${cantidadRegistros}`
+    );
+  }
+  getReservasPendientesByCanchaId(idCancha: string | number) {
+    return this._http.get(this.url + `/reserva/reservasPendientesByCancha/${idCancha}`);
   }
 }
