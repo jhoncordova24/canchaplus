@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+.group {
+  transition: all 0.25s ease;
+}
+
+.group:hover {
+  transform: translateY(-6px);
+}
+
+button {
+  transition: all 0.2s ease;
+}
