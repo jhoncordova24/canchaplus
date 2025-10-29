@@ -43,8 +43,7 @@
             </div>
         </div>
         <br />
-        <!-- @if(events$ | async ; as events){ -->
-         @if(events){
+        @if(events$ | async ; as events){
         <div>
             @switch (view) {
             @case (CalendarView.Month) {
@@ -52,13 +51,14 @@
                 (dayClicked)="dayClicked($event.day)" (eventClicked)="eventClicked($event.event)">>
             </mwl-calendar-month-view>}
             @case (CalendarView.Week) {
-            <mwl-calendar-week-view class="hidden md:block" [viewDate]="viewDate" [events]="events"
-                [weekStartsOn]="calendarParams.startsOn" [dayStartHour]="calendarParams.dayStartHour"
-                [dayEndHour]="calendarParams.dayEndHour" (eventClicked)="eventClicked($event.event)">
+            <mwl-calendar-week-view class="hidden md:block" (hourSegmentClicked)="hourClicked($event.date)"
+                [viewDate]="viewDate" [events]="events" [weekStartsOn]="calendarParams.startsOn"
+                [dayStartHour]="calendarParams.dayStartHour" [dayEndHour]="calendarParams.dayEndHour"
+                (eventClicked)="eventClicked($event.event)">
             </mwl-calendar-week-view>}
             @case (CalendarView.Day) {
-            <mwl-calendar-day-view class="hidden md:block" [viewDate]="viewDate" [events]="events"
-                (eventClicked)="eventClicked($event.event)">
+            <mwl-calendar-day-view (hourSegmentClicked)="hourClicked($event.date)" class="hidden md:block"
+                [viewDate]="viewDate" [events]="events" (eventClicked)="eventClicked($event.event)">
             </mwl-calendar-day-view>}
             }
             <mwl-calendar-day-view class="md:hidden" [viewDate]="viewDate" [events]="events"

@@ -15,10 +15,10 @@ export class AuthService {
   constructor() {}
 
   login(data: Login) {
-    return this._http.post(this.url + '/api/rest/auth/login', data);
+    return this._http.post(this.url + '/auth/login', data);
   }
 
   register(data: Register) {
-    return this._http.post(this.url + '/api/rest/auth/register', data);
+    return this._http.post(this.url + '/auth/register', data);
   }
 }

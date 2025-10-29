@@ -14,7 +14,7 @@ export const routes: Routes = [
     path: 'home',
     component: Home,
     loadChildren: () => import('./home/home.routes'),
-    canActivate: [sessionGuard],
+    canActivateChild: [sessionGuard],
     title: 'Canchaplus - Home',
   },
   { path: '**', redirectTo: 'landing' },

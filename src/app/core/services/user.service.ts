@@ -13,9 +13,9 @@ export class UserService {
     localStorage.clear();
   }
 
-  getUser(): User | null {
+  getUser(): User {
     if (!localStorage.getItem('usuario')) {
-      return null;
+      console.log('Usuario no logeado');
     }
     return JSON.parse(localStorage.getItem('usuario')!);
   }

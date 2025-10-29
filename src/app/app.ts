@@ -8,10 +8,6 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.html',
   imports: [RouterOutlet],
 })
-export class App implements OnInit {
+export class App {
   title = 'web-app';
-
-  ngOnInit(): void {
-    initFlowbite();
-  }
 }

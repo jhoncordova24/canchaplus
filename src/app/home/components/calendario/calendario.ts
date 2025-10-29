@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, input, OnInit, output, signal } from '@angular/core';
 import {
   CalendarA11y,
   CalendarDateFormatter,
@@ -22,6 +22,8 @@ import {
   CalendarDayViewComponent,
   CalendarDatePipe,
 } from 'angular-calendar';
+import { fromZonedTime } from 'date-fns-tz';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-calendario',
@@ -49,65 +51,61 @@ import {
   styleUrl: './calendario.scss',
   standalone: true,
 })
-export class Calendario {
+export class Calendario implements OnInit {
   view: CalendarView = CalendarView.Month;
 
   CalendarView = CalendarView;
 
-  events$!: Observable<CalendarEvent<{ cita: any }>[]>;
+  events$!: Observable<CalendarEvent<{ reserva: any }>[]>;
+  reservas$ = input.required<Observable<any>>();
+
+  fechaReserva = output<Date>();
 
   calendarParams = calendarParameters;
 
   viewDate: Date = new Date();
+
+  fecha!: any;
+  id: any;
+  private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
+
+  ngOnInit(): void {
+    this.fetchEvents();
+  }
 
   setView(view: CalendarView) {
     this.view = view;
     this.fetchEvents();
   }
 
-  events: CalendarEvent[] = [];
-
   fetchEvents(): void {
-    // this.events$ = new Observable<any>;
-    // this.events$ = this.citaService.getCitasCalendario(this.view, this.viewDate)!.pipe(
-    //   map((data: any) => {
-    //     return data.data.map((cita: Cita) => {
-    //       return {
-    //         title:
-    //           'Dr. ' +
-    //           cita.medico.trabajador.persona.apellidoPaterno +
-    //           ' - ' +
-    //           cita.paciente.persona.nombrePrimer +
-    //           ' ' +
-    //           cita.paciente.persona.apellidoPaterno,
-    //         start: new Date(cita.fecha),
-    //         meta: {
-    //           cita,
-    //         },
-    //       };
-    //     });
-    //   }),
-    //   map((citas: any[]) => {
-    //     return citas.filter((cita) => {
-    //       console.log(cita);
-    //       return cita.meta.cita.estadoCita.id != 2;
-    //     });
-    //   })
-    // );
+    //Debo traerlas por mes pero backend no quiere avanzar
+    this.events$ = this.reservas$().pipe(
+      map((response: any) => {
+        console.log(response);
+        return response.data.reservas.map((r: any) => ({
+          start: fromZonedTime(r.reserva_fecha + ' ' + r.reserva_horainicio, 'America/Lima'),
+          end: fromZonedTime(r.reserva_fecha + ' ' + r.reserva_horafin, 'America/Lima'),
+          title: fromZonedTime(r.reserva_fecha + ' ' + r.reserva_horainicio, 'America/Lima'),
+          meta: { reserva: r },
+        }));
+      })
+    );
   }
 
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent<{ cita: any }>[] }): void {
-    //Dialogo form para agregar cita se le debe pasar un obj fecha con la fecha sin hora....
-    //this.dialog.open(CalendarTestAloneComponent);
-    //console.log(events[0]);
-    const fecha = format(date, 'yyyy-MM-dd');
-    // this.mostrarDialogAgregarCita({ data: fecha });
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent<{ reserva: any }>[] }): void {
+    //Esta es el dia pero SOLO en vista de Month
+    //Setearemos la vista en Dia y podra agendar su reserva al seleccionar una hora
+    this.setView(CalendarView.Day);
+    this.viewDate = date;
+  }
+  // TOCA ESTO HACER DINAMICO PARA VISTAS DE RESERVAR Y LISTAR event day y otros de los horas de semana y dia VIEWS
+  eventClicked(event: CalendarEvent<{ reserva: any }>): void {
+    //Esta es la bolita
   }
 
-  eventClicked(event: CalendarEvent<{ cita: any }>): void {
-    //Dialogo con lista de citas con opcion de visualizar el detalle de cada una(otro dialogo??)....
-    //this.dialog.open(CalendarTestAloneComponent);
-    console.log(event);
-    // this.mostrarDialogListaDia({ data: event.start });
+  hourClicked(viewDate: Date) {
+    this.fechaReserva.emit(viewDate);
   }
 }

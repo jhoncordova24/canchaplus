@@ -1,4 +1,11 @@
 import { Routes } from '@angular/router';
 import { Calendario } from './components/calendario/calendario';
 
-export default [{ path: '', component: Calendario, title: 'Canchaplus - Home' }] as Routes;
+export default [
+  { path: '', redirectTo: 'reservar', pathMatch: 'full' },
+  // { path: 'calendario', component: Calendario, title: 'Canchaplus - Home' },
+  {
+    path: 'reservar',
+    loadChildren: () => import('./components/reservar/reservar.routes'),
+  },
+] as Routes;

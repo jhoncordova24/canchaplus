@@ -1,0 +1,119 @@
+<div class="flex min-h-screen w-full items-center justify-center bg-gray-50 dark:bg-background-dark p-6 sm:p-8 lg:p-12">
+    <div class="w-full max-w-[90%] mx-auto">
+        <div class="flex flex-col gap-8">
+            <div class="text-center">
+                <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
+                    Reserva de Cancha
+                </h1>
+                <p class="text-gray-500 dark:text-gray-400 mt-2 text-lg">
+                    Completa los datos, revisa tu reserva y realiza el pago para confirmarla.
+                </p>
+            </div>
+            <form [formGroup]="form" (ngSubmit)="ngSubmit()"
+                class="space-y-8 bg-white dark:bg-zinc-900/60 rounded-2xl shadow-xl border border-gray-200 dark:border-zinc-800 p-8">
+                <section class="space-y-6">
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
+                        <span class="material-symbols-outlined text-lime-600">event</span>
+                        Datos de la Reserva
+                    </h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 pb-1">Empresa</label>
+                            <p
+                                class="w-full rounded-lg border border-gray-300 dark:border-zinc-700 bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-400 h-14 flex items-center px-4">
+                                Nombre de la Empresa
+                            </p>
+                        </div>
+
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 pb-1">Cancha</label>
+                            <p
+                                class="w-full rounded-lg border border-gray-300 dark:border-zinc-700 bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-400 h-14 flex items-center px-4">
+                                {{cancha.cancha_nombre }} ({{cancha.tipocancha_nombre}})
+                            </p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 pb-1">Fecha</label>
+                            <input type="date" formControlName="reserva_fecha" [min]="hoy"
+                                class="w-full rounded-lg border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-800 dark:text-gray-200 focus:border-lime-600 focus:ring-lime-600 h-14 px-4" />
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 pb-1">Hora de
+                                Inicio</label>
+                            <input type="time" formControlName="reserva_horainicio"
+                                class="w-full rounded-lg border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-800 dark:text-gray-200 focus:border-lime-600 focus:ring-lime-600 h-14 px-4" />
+                        </div>
+
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 pb-1">Duración</label>
+                            <select formControlName="horas"
+                                class="w-full rounded-lg border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-800 dark:text-gray-200 focus:border-lime-600 focus:ring-lime-600 h-14 px-4">
+                                @for (hora of horas; track $index) {
+                                <option value={{hora.value}}>{{hora.label}}</option>}
+                            </select>
+                        </div>
+                    </div>
+                </section>
+                <section class="space-y-4 border-t border-gray-200 dark:border-zinc-700 pt-6">
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
+                        <span class="material-symbols-outlined text-lime-600">receipt_long</span>
+                        Resumen del Costo
+                    </h2>
+
+                    <div class="bg-gray-50 dark:bg-zinc-800 rounded-lg p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <p class="flex justify-between text-gray-700 dark:text-gray-300"><span>Cancha:</span>
+                            <strong> {{cancha.cancha_nombre }} ({{cancha.tipocancha_nombre}})</strong>
+                        </p>
+                        <p class="flex justify-between text-gray-700 dark:text-gray-300"><span>Duración:</span>
+                            <strong>{{this.horas[form.get("horas")?.value-1].label}}</strong>
+                        </p>
+                        <p class="flex justify-between text-gray-700 dark:text-gray-300"><span>Costo por hora:</span>
+                            <strong>{{this.tarifa.tarifa_preciohora}}</strong>
+                        </p>
+                        <p
+                            class="flex justify-between text-gray-900 dark:text-white font-semibold text-lg border-t border-gray-200 dark:border-zinc-700 pt-3 col-span-full">
+                            <span>Total a pagar:</span> <span>S/ {{getPrecioTotal()}}</span>
+                        </p>
+                    </div>
+                </section>
+                <section class="space-y-6 border-t border-gray-200 dark:border-zinc-700 pt-6">
+                    <!-- <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
+                        <span class="material-symbols-outlined text-lime-600">credit_card</span>
+                        Método de Pago
+                    </h2>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <label
+                            class="flex items-center space-x-3 bg-gray-50 dark:bg-zinc-800 p-4 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-700 transition">
+                            <input type="radio" name="metodo-pago" value="tarjeta"
+                                class="text-lime-600 focus:ring-lime-600">
+                            <span class="text-gray-700 dark:text-gray-300">Tarjeta de Crédito / Débito</span>
+                        </label>
+
+                        <label
+                            class="flex items-center space-x-3 bg-gray-50 dark:bg-zinc-800 p-4 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-700 transition">
+                            <input type="radio" name="metodo-pago" value="efectivo"
+                                class="text-lime-600 focus:ring-lime-600">
+                            <span class="text-gray-700 dark:text-gray-300">Pago en Efectivo</span>
+                        </label>
+                    </div> -->
+
+                    <div class="pt-6">
+                        <button type="submit"
+                            class="w-full flex items-center justify-center rounded-lg bg-emerald-600 px-6 py-4 text-base font-bold text-white shadow-sm hover:bg-emerald-700 transition-colors duration-300">
+                            <!-- <span class="material-symbols-outlined text-white">money_bag</span> Proceder al Pago y -->
+                            Confirmar Reserva
+                        </button>
+                    </div>
+                </section>
+
+            </form>
+        </div>
+    </div>
+</div>
