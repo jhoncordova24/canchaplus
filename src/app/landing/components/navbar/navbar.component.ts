@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { initFlowbite } from 'flowbite';
+import { Component, OnInit} from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -8,6 +9,11 @@ import { RouterLink } from '@angular/router';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
-export class NavbarComponent {
 
+export class NavbarComponent implements OnInit {
+  title = 'web-app';
+
+  ngOnInit(): void {
+    initFlowbite();
+  }
 }

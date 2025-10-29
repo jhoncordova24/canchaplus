@@ -1,0 +1,143 @@
+<div class="sm:ml-64 pt-20 pb-5 px-4">
+  <section
+    class="bg-gradient-to-b from-[#0f1a0f] to-black rounded-xl"
+  >
+    <div class="py-8 px-4 mx-auto max-w-screen-lg lg:px-8">
+      <div class="mx-auto max-w-2xl">
+        <!-- Encabezado -->
+        <div class="text-center mb-8">
+          <h2
+            class="mb-2 text-3xl md:text-4xl tracking-tight font-extrabold leading-tight text-white"
+          >
+            Solicitar acceso de
+            <span class="text-lime-400">Administrador</span>
+          </h2>
+          <p class="text-sm md:text-base text-gray-300">
+            Completa el formulario para pasar a perfil Admin. Revisaremos tu solicitud y te
+            contactaremos.
+          </p>
+        </div>
+
+        <!-- Form -->
+        <form class="space-y-6">
+          <!-- Nombres -->
+          <div>
+            <label class="block mb-2 text-sm font-medium text-gray-100">
+              Nombres y Apellidos <span class="text-lime-400">*</span>
+            </label>
+            <input
+              type="text"
+              required
+              placeholder="Ej: Jhon Alonso Paucar Cordova"
+              class="block w-full rounded-lg border border-lime-700 bg-[#0f1a0f]/80 px-4 py-2.5 text-gray-100 placeholder-gray-400 outline-none focus:ring-2 focus:ring-lime-400"
+            />
+            <p class="mt-1 text-xs text-gray-400">Usa tu nombre real para validación.</p>
+          </div>
+
+          <!-- Email + Teléfono -->
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block mb-2 text-sm font-medium text-gray-100">
+                Correo electrónico <span class="text-lime-400">*</span>
+              </label>
+              <input
+                type="email"
+                required
+                placeholder="tucorreo@dominio.com"
+                class="block w-full rounded-lg border border-lime-700 bg-[#0f1a0f]/80 px-4 py-2.5 text-gray-100 placeholder-gray-400 outline-none focus:ring-2 focus:ring-lime-400"
+              />
+            </div>
+            <div>
+              <label class="block mb-2 text-sm font-medium text-gray-100">
+                Teléfono <span class="text-lime-400">*</span>
+              </label>
+              <input
+                type="tel"
+                required
+                placeholder="+51 9XXXXXXXX"
+                class="block w-full rounded-lg border border-lime-700 bg-[#0f1a0f]/80 px-4 py-2.5 text-gray-100 placeholder-gray-400 outline-none focus:ring-2 focus:ring-lime-400"
+              />
+            </div>
+          </div>
+
+          <!-- Motivo -->
+          <div>
+            <label class="block mb-2 text-sm font-medium text-gray-100">
+              Motivo de la solicitud <span class="text-lime-400">*</span>
+            </label>
+            <textarea
+              rows="4"
+              required
+              placeholder="Explica por qué necesitas permisos de Administrador (detalla tus responsabilidades)."
+              class="block w-full rounded-lg border border-lime-800 bg-[#0f1a0f]/80 px-4 py-2.5 text-gray-100 placeholder-gray-400 outline-none focus:ring-2 focus:ring-lime-400"
+            ></textarea>
+            <p class="mt-1 text-xs text-gray-400">Sé específico para acelerar la revisión.</p>
+          </div>
+
+          <!-- Experiencia -->
+          <div>
+            <label class="block mb-2 text-sm font-medium text-gray-100">
+              Experiencia / rol actual (opcional)
+            </label>
+            <input
+              type="text"
+              placeholder="Ej: Encargado de sede Tal, responsable de reservas, etc."
+              class="block w-full rounded-lg border border-lime-800 bg-[#0f1a0f]/80 px-4 py-2.5 text-gray-100 placeholder-gray-400 outline-none focus:ring-2 focus:ring-lime-400"
+            />
+          </div>
+
+          <!-- 
+          <div>
+            <label class="block mb-2 text-sm font-medium text-gray-100">
+              Adjuntar respaldo (opcional)
+            </label>
+            <input
+              type="file"
+              class="block w-full text-sm text-gray-100 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-lime-600 file:text-black hover:file:bg-lime-500 cursor-pointer border border-gray-700 rounded-lg bg-gray-900"
+              accept=".pdf,.jpg,.jpeg,.png"
+            />
+            <p class="mt-1 text-xs text-gray-400">PDF, JPG o PNG (máx. 10MB).</p>
+          </div>
+          -->
+
+          <!-- Términos -->
+          <div class="flex items-start">
+            <div class="flex items-center h-5">
+              <input
+                id="terms"
+                type="checkbox"
+                required
+                class="w-4 h-4 border border-gray-600 rounded bg-gray-800 focus:ring-2 focus:ring-lime-400"
+              />
+            </div>
+            <label for="terms" class="ml-2 text-sm text-gray-300">
+              Confirmo que la información es verídica y acepto que el equipo revise mi solicitud.
+            </label>
+          </div>
+
+          <!-- Botones -->
+          <div class="flex items-center gap-3 pt-2">
+            <button
+              type="submit"
+              class="inline-flex items-center rounded-lg px-5 py-2.5 text-sm font-medium bg-lime-600 hover:bg-lime-500 text-black focus:outline-none focus:ring-4 focus:ring-lime-400/40"
+            >
+              Enviar solicitud
+            </button>
+            <button
+              type="reset"
+              class="rounded-lg px-4 py-2.5 text-sm font-medium border border-gray-700 text-gray-200 hover:bg-gray-800"
+            >
+              Limpiar
+            </button>
+          </div>
+
+          <!-- Nota -->
+          <p class="text-xs text-gray-400">
+            * Tu solicitud será evaluada por el equipo de Canchaplus. Podríamos contactarte para
+            verificar datos.
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>

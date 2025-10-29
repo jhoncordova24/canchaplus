@@ -4,11 +4,22 @@
 @source "../node_modules/flowbite";
 
 @theme {
+  
 }
 
 @layer {
   .btn-calendar-controls {
-    @apply transition-colors duration-300 bg-lime-500 rounded-md px-2 py-1 text-white hover:text-lime-500 hover:bg-white hover:outline hover:outline-lime-500 hover:cursor-pointer;
+    @apply 
+      px-3 py-1.5 
+      rounded-md 
+      bg-lime-700 
+      text-white 
+      font-medium 
+      transition-colors duration-300 
+      hover:bg-lime-600 
+      hover:text-white 
+      hover:shadow-md 
+      cursor-pointer;
   }
   .btn-menu-a {
     @apply grid md:grid-cols-[3vw_1fr] md:pl-4 content-center items-center px-1 py-2 mx-1 md:mx-4 block text-white rounded-md hover:bg-[#81a9d3] transition-colors duration-300;
@@ -29,3 +40,4 @@
     @apply bg-blue-600 py-2 px-4 rounded-md  text-white transition-colors duration-300 cursor-pointer hover:bg-blue-800 font-bold;
   }
 }
+
