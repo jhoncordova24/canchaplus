@@ -63,7 +63,7 @@
         [viewDate]="viewDate" [events]="events" (eventClicked)="eventClicked($event.event)">
       </mwl-calendar-day-view>}
       }
-      <mwl-calendar-day-view class="md:hidden" [viewDate]="viewDate" [events]="events"
+      <mwl-calendar-day-view class="md:hidden" (hourSegmentClicked)="hourClicked($event.date)" [viewDate]="viewDate" [events]="events"
         (eventClicked)="eventClicked($event.event)">
       </mwl-calendar-day-view>
     </div>
