@@ -1,74 +1,76 @@
-<div class="mx-auto p-8">
-    <div class="bg-white shadow-md rounded-lg p-6">
-        <div class="mx-2 my-4">
-            <label for="fechaBuscar" class="block text-gray-700 font-semibold">Ir a fecha: </label>
-            <div class="flex items-center border border-gray-300 rounded-md bg-gray-50 max-w-[200px]">
-                <span class="inline-block w-10 text-center text-gray-500">
-                    <!-- <mat-icon>event</mat-icon> -->
-                </span>
-                <input type="date" id="fechaNacimiento" name="fechaBuscar" class="input-forms">
-            </div>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 justify-items-center align-center">
-            <div class="flex gap-x-2">
-                <button class="btn-calendar-controls" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
-                    (viewDateChange)="fetchEvents()" (viewChange)="fetchEvents()">
-                    ◄
-                </button>
-                <button class="btn-calendar-controls" mwlCalendarToday [(viewDate)]="viewDate"
-                    (viewDateChange)="fetchEvents()" (viewChange)="fetchEvents()">
-                    Hoy
-                </button>
-                <button class="btn-calendar-controls" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
-                    (viewDateChange)="fetchEvents()" (viewChange)="fetchEvents()">
-                    ►
-                </button>
-            </div>
-            <div>
-                <h2 class="text-center font-bold">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h2>
-            </div>
-            <div class="md:flex gap-x-2 hidden">
-                <button class="btn-calendar-controls" (click)="setView(CalendarView.Month)"
-                    [class.active]="view === CalendarView.Month">
-                    Mes
-                </button>
-                <button class="btn-calendar-controls" (click)="setView(CalendarView.Week)"
-                    [class.active]="view === CalendarView.Week">
-                    Semana
-                </button>
-                <button class="btn-calendar-controls" (click)="setView(CalendarView.Day)"
-                    [class.active]="view === CalendarView.Day">
-                    Dia
-                </button>
-            </div>
-        </div>
-        <br />
-        @if(events$ | async ; as events){
-        <div>
-            @switch (view) {
-            @case (CalendarView.Month) {
-            <mwl-calendar-month-view class="hidden md:block" [viewDate]="viewDate" [events]="events"
-                (dayClicked)="dayClicked($event.day)" (eventClicked)="eventClicked($event.event)">>
-            </mwl-calendar-month-view>}
-            @case (CalendarView.Week) {
-            <mwl-calendar-week-view class="hidden md:block" (hourSegmentClicked)="hourClicked($event.date)"
-                [viewDate]="viewDate" [events]="events" [weekStartsOn]="calendarParams.startsOn"
-                [dayStartHour]="calendarParams.dayStartHour" [dayEndHour]="calendarParams.dayEndHour"
-                (eventClicked)="eventClicked($event.event)">
-            </mwl-calendar-week-view>}
-            @case (CalendarView.Day) {
-            <mwl-calendar-day-view (hourSegmentClicked)="hourClicked($event.date)" class="hidden md:block"
-                [viewDate]="viewDate" [events]="events" (eventClicked)="eventClicked($event.event)">
-            </mwl-calendar-day-view>}
-            }
-            <mwl-calendar-day-view class="md:hidden" [viewDate]="viewDate" [events]="events"
-                (eventClicked)="eventClicked($event.event)">
-            </mwl-calendar-day-view>
-        </div>
-        }@else {
-        <div class="grid justify-items-center">
-            <!-- <mat-spinner class="spinner" color="primary"></mat-spinner> -->
-            <p> Recuperando información...</p>
-        </div>}
+<div class="sm:ml-64 pt-20 pb-5 pl-4 pr-4">
+  <div class=" rounded-lg p-6 bg-gradient-to-b from-[#0f1a0f] to-black">
+    <div class="mx-2 my-4">
+      <label for="fechaBuscar" class="block text-lime-400 font-semibold mb-1"> Ir a fecha: </label>
+      <div
+        class="flex items-center rounded-md shadow-inner max-w-[200px] focus-within:ring-2 focus-within:ring-lime-500 transition-all duration-300">
+        <input type="date" id="fechaNacimiento" name="fechaBuscar"
+          class="flex-1 bg-gray-100 text-black text-sm p-2 rounded-md outline-none placeholder-gray-500 accent-lime-500"
+          placeholder="dd/mm/aaaa" />
+      </div>
     </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 justify-items-center align-center">
+      <div class="flex gap-x-2">
+        <button class="btn-calendar-controls" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+          (viewDateChange)="fetchEvents()" (viewChange)="fetchEvents()">
+          ◄
+        </button>
+        <button class="btn-calendar-controls" mwlCalendarToday [(viewDate)]="viewDate" (viewDateChange)="fetchEvents()"
+          (viewChange)="fetchEvents()">
+          Hoy
+        </button>
+        <button class="btn-calendar-controls" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+          (viewDateChange)="fetchEvents()" (viewChange)="fetchEvents()">
+          ►
+        </button>
+      </div>
+      <div>
+        <h2 class="text-center text-white font-bold">
+          {{ viewDate | calendarDate : view + 'ViewTitle' : 'en' }}
+        </h2>
+      </div>
+      <div class="md:flex gap-x-2 hidden">
+        <button class="btn-calendar-controls" (click)="setView(CalendarView.Month)"
+          [class.active]="view === CalendarView.Month">
+          Mes
+        </button>
+        <button class="btn-calendar-controls" (click)="setView(CalendarView.Week)"
+          [class.active]="view === CalendarView.Week">
+          Semana
+        </button>
+        <button class="btn-calendar-controls" (click)="setView(CalendarView.Day)"
+          [class.active]="view === CalendarView.Day">
+          Dia
+        </button>
+      </div>
+    </div>
+    <br />
+    @if(events$ | async ; as events){
+    <div>
+      @switch (view) {
+      @case (CalendarView.Month) {
+      <mwl-calendar-month-view class="hidden md:block" [viewDate]="viewDate" [events]="events"
+        (dayClicked)="dayClicked($event.day)" (eventClicked)="eventClicked($event.event)">>
+      </mwl-calendar-month-view>}
+      @case (CalendarView.Week) {
+      <mwl-calendar-week-view class="hidden md:block" (hourSegmentClicked)="hourClicked($event.date)"
+        [viewDate]="viewDate" [events]="events" [weekStartsOn]="calendarParams.startsOn"
+        [dayStartHour]="calendarParams.dayStartHour" [dayEndHour]="calendarParams.dayEndHour"
+        (eventClicked)="eventClicked($event.event)">
+      </mwl-calendar-week-view>}
+      @case (CalendarView.Day) {
+      <mwl-calendar-day-view (hourSegmentClicked)="hourClicked($event.date)" class="hidden md:block"
+        [viewDate]="viewDate" [events]="events" (eventClicked)="eventClicked($event.event)">
+      </mwl-calendar-day-view>}
+      }
+      <mwl-calendar-day-view class="md:hidden" [viewDate]="viewDate" [events]="events"
+        (eventClicked)="eventClicked($event.event)">
+      </mwl-calendar-day-view>
+    </div>
+    }@else {
+    <div class="grid justify-items-center">
+      <!-- <mat-spinner class="spinner" color="primary"></mat-spinner> -->
+      <p> Recuperando información...</p>
+    </div>}
+  </div>
 </div>
