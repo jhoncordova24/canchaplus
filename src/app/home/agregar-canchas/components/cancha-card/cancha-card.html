@@ -1,0 +1,33 @@
+<div class="cancha-card bg-neutral-900/70 text-white rounded-2xl shadow-lg 
+            border border-lime-500/30 overflow-hidden backdrop-blur-md">
+
+    <img [src]="cancha.imagen" class="w-full h-40 object-cover">
+
+    <div class="p-5">
+
+        <div class="flex justify-between items-center mb-3">
+            <h2 class="text-xl font-semibold">{{ cancha.nombre }}</h2>
+
+            <button (click)="editar.emit(cancha)" class="text-lime-400 hover:text-lime-300">
+                <i class="fa fa-edit text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Estado -->
+        <span class="px-3 py-1 rounded-full text-sm"
+            [ngClass]="{
+                'bg-lime-600/60 text-white': cancha.estado === 'Disponible',
+                'bg-yellow-600/60 text-white': cancha.estado === 'Mantenimiento',
+                'bg-red-600/60 text-white': cancha.estado === 'No Disponible'
+            }">
+            {{ cancha.estado }}
+        </span>
+
+        <!-- Tarifas pequeñas -->
+        <div class="mt-4 space-y-2">
+            <app-tarifa-card *ngFor="let t of cancha.tarifas" [tarifa]="t"></app-tarifa-card>
+        </div>
+
+    </div>
+
+</div>

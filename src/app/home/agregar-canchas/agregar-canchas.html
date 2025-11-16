@@ -1,0 +1,161 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
+
+<div class="grid grid-cols-[18%_1fr] min-h-screen bg-gradient-to-b from-neutral-950 via-neutral-900 to-neutral-950">
+
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <!-- CONTENIDO CENTRAL -->
+  <div class="p-10 flex justify-center">
+
+    <div
+      class="w-full max-w-6xl bg-neutral-900/70 backdrop-blur-md border border-lime-500/30 rounded-3xl shadow-xl p-10 text-gray-100"
+    >
+      <!-- CABECERA -->
+      <div
+        class="flex flex-col md:flex-row items-center justify-between mb-8 border-b border-lime-500/20 pb-5"
+      >
+        <h2 class="text-3xl font-bold text-lime-400 tracking-tight flex items-center gap-3">
+          <i class="fa-solid fa-futbol"></i> Gestión de Canchas
+        </h2>
+
+        <button
+          (click)="agregarCancha()"
+          class="bg-lime-500 hover:bg-lime-600 text-black font-semibold px-5 py-2 rounded-xl shadow-md transition flex items-center gap-2"
+        >
+          <i class="fa fa-plus"></i> Agregar Cancha
+        </button>
+      </div>
+
+      <!-- LISTA DE CANCHAS -->
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+
+        <div
+          *ngFor="let c of canchas"
+          class="group bg-neutral-900/70 border border-lime-500/30 rounded-2xl shadow-md overflow-hidden backdrop-blur-md transition-all duration-300 hover:shadow-lime-400/30 hover:-translate-y-2"
+        >
+
+          <!-- IMAGEN -->
+          <img
+            [src]="c.imagen"
+            class="w-full h-44 object-cover border-b border-neutral-800"
+          />
+
+          <div class="p-6">
+
+            <!-- NOMBRE + EDITAR -->
+            <div class="flex justify-between items-start mb-3">
+              <h3 class="text-xl font-semibold text-white group-hover:text-lime-300 transition">
+                {{ c.nombre }}
+              </h3>
+
+              <button
+                (click)="editarCancha(c)"
+                class="text-lime-400 hover:text-lime-300 transition text-xl"
+              >
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+            </div>
+
+            <!-- ESTADO -->
+            <div class="mb-4">
+              <span
+                class="text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide"
+                [ngClass]="{
+                  'bg-green-600/20 text-green-400 border border-green-500/30': c.estado === 'Disponible',
+                  'bg-yellow-600/20 text-yellow-400 border border-yellow-500/30': c.estado === 'Mantenimiento',
+                  'bg-red-600/20 text-red-400 border border-red-500/30': c.estado === 'No Disponible'
+                }"
+              >
+                {{ c.estado }}
+              </span>
+            </div>
+
+            <!-- TARIFAS -->
+            <h4 class="text-lg font-semibold mb-3 text-lime-300">Tarifas</h4>
+
+            <div *ngFor="let t of c.tarifas"
+              class="bg-neutral-800 border border-neutral-700 rounded-xl p-3 mb-2 flex justify-between items-center"
+            >
+              <span>{{ t.nombre }}</span>
+              <span class="font-semibold">S/{{ t.precio }}</span>
+
+              <button
+                (click)="editarTarifa(c, t)"
+                class="text-lime-400 hover:text-lime-300 transition"
+              >
+                <i class="fa-solid fa-pen"></i>
+              </button>
+            </div>
+
+            <!-- BOTÓN AGREGAR TARIFA -->
+            <button
+              (click)="agregarTarifa(c)"
+              class="mt-3 w-full bg-neutral-800 border border-neutral-700 hover:border-lime-400 text-lime-300 py-2 rounded-xl transition flex items-center justify-center gap-2"
+            >
+              <i class="fa fa-plus"></i> Agregar Tarifa
+            </button>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!--                    MODAL CANCHA                           -->
+<!-- ========================================================= -->
+<div *ngIf="modalCancha" class="fixed inset-0 bg-black/60 flex justify-center items-center z-50">
+  <div class="bg-neutral-900 p-8 rounded-2xl w-[400px] border border-lime-500/30 shadow-lg">
+    <h2 class="text-2xl text-lime-300 font-bold mb-5">
+      {{ editandoCancha?.id ? 'Editar Cancha' : 'Nueva Cancha' }}
+    </h2>
+
+    <label class="block mb-1 text-sm">Nombre</label>
+    <input class="w-full p-2 rounded bg-neutral-800 text-white mb-3" [(ngModel)]="editandoCancha.nombre">
+
+    <label class="block mb-1 text-sm">Estado</label>
+    <select class="w-full p-2 rounded bg-neutral-800 text-white mb-3" [(ngModel)]="editandoCancha.estado">
+      <option>Disponible</option>
+      <option>Mantenimiento</option>
+      <option>No Disponible</option>
+    </select>
+
+    <label class="block mb-1 text-sm">URL Imagen</label>
+    <input class="w-full p-2 rounded bg-neutral-800 text-white mb-6" [(ngModel)]="editandoCancha.imagen">
+
+    <div class="flex justify-end gap-3">
+      <button class="px-4 py-2 bg-gray-600 rounded-xl" (click)="cancelarCancha()">Cancelar</button>
+      <button class="px-4 py-2 bg-lime-600 rounded-xl text-black" (click)="guardarCancha()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!--                    MODAL TARIFA                           -->
+<!-- ========================================================= -->
+<div *ngIf="modalTarifa" class="fixed inset-0 bg-black/60 flex justify-center items-center z-50">
+
+  <div class="bg-neutral-900 p-8 rounded-2xl w-[360px] border border-lime-500/30 shadow-lg">
+    <h2 class="text-2xl text-lime-300 font-bold mb-5">
+      {{ editandoTarifa?.id ? 'Editar Tarifa' : 'Nueva Tarifa' }}
+    </h2>
+
+    <label class="block mb-1 text-sm">Nombre</label>
+    <input class="w-full p-2 rounded bg-neutral-800 text-white mb-3" [(ngModel)]="editandoTarifa.nombre">
+
+    <label class="block mb-1 text-sm">Precio</label>
+    <input type="number" class="w-full p-2 rounded bg-neutral-800 text-white mb-6" [(ngModel)]="editandoTarifa.precio">
+
+    <div class="flex justify-end gap-3">
+      <button class="px-4 py-2 bg-gray-600 rounded-xl" (click)="cancelarTarifa()">Cancelar</button>
+      <button class="px-4 py-2 bg-lime-600 rounded-xl text-black" (click)="guardarTarifa()">Guardar</button>
+    </div>
+  </div>
+
+</div>
