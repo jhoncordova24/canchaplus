@@ -1,0 +1,29 @@
+@if(isOpen()){
+<div class="fixed modal-backdrop inset-0 bg-black/60 flex justify-center items-center z-[1000]"
+    (click)="onBackdropClick($event)">
+    <div class="bg-neutral-900 p-8 rounded-2xl w-[400px] border border-lime-500/30 shadow-lg">
+        <form [formGroup]="form">
+            <h2 class="text-2xl text-lime-300 font-bold mb-5">
+                {{ dataModal().body.cancha_id ? 'Editar Cancha' : 'Nueva Cancha' }}
+            </h2>
+            <label class="block mb-1 text-sm text-lime-400">Nombre</label>
+            <input class="w-full p-2 rounded bg-neutral-800 text-white mb-3" formControlName="nombre">
+
+            <label class="block mb-1 text-sm text-lime-400">Tipo de cancha</label>
+            <select class="w-full p-2 rounded bg-neutral-800 text-white mb-3" formControlName="tipo">
+                @for (item of tiposCancha; track $index) {
+                <option [value]=$index+1>{{tiposCancha.get($index+1)}}</option>
+                }
+            </select>
+            <!-- 
+        <label class="block mb-1 text-sm text-lime-400">URL Imagen</label>
+        <input class=" w-full p-2 rounded bg-neutral-800 text-white mb-6"> -->
+
+            <div class="flex justify-end gap-3">
+                <button class="cursor-pointer px-4 py-2 bg-gray-600 rounded-xl" (click)="onClose()">Cancelar</button>
+                <button class="cursor-pointer px-4 py-2 bg-lime-600 rounded-xl text-black"
+                    (click)="onConfirmAction()">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>}

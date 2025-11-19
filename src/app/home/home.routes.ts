@@ -4,9 +4,9 @@ import { SolicitudesReserva } from './components/solicitudes-reserva/solicitudes
 import { MiPerfil } from './components/mi-perfil/mi-perfil';
 import { Home } from './home';
 import { Reservas } from './components/reservas/reservas';
-import { sessionGuard } from '../core/guards/session.guard';
 import { roleGuard } from '../core/guards/role.guard';
 import { Reportes } from './components/reportes/reportes';
+import { AgregarCancha } from './components/agregar-cancha/agregar-cancha';
 
 export default [
   {
@@ -23,7 +23,17 @@ export default [
       { path: 'perfil', component: MiPerfil, title: 'Canchaplus - Mi Perfil' },
       { path: 'solicitudes', component: SolicitudesReserva, title: 'Canchaplus - Solicitudes' },
       { path: 'reservas', component: Reservas, title: 'Canchaplus - Mis Reservas' },
-      { path: 'reportes', component: Reportes, title: 'Canchaplus - Reportes' },
+      {
+        path: 'reportes',
+        component: Reportes,
+        title: 'Canchaplus - Reportes',
+      },
+      {
+        path: 'gestionar',
+        component: AgregarCancha,
+        title: 'Canchaplus - Gestión',
+        canActivate: [roleGuard],
+      },
       {
         path: 'reservar',
         loadChildren: () => import('./components/reservar/reservar.routes'),

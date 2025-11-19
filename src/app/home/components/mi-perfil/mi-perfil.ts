@@ -9,6 +9,7 @@ import { ReservaService } from '../../services/reserva.service';
 import { UsuarioService } from '../../services/usuario.service';
 import { DialogComponent } from '../../../shared/components/dialog/dialog.component';
 import { DataDialog, Result } from '../../../interfaces/data-dialog.interface';
+import { telefonoValidator } from '../../../shared/validators/telefonoValidator';
 
 @Component({
   selector: 'app-mi-perfil',
@@ -38,7 +39,10 @@ export class MiPerfil {
   constructor() {
     this.form = this.formBuilder.group({
       usuario_nombres: this.formBuilder.control<string>('', Validators.required),
-      usuario_telefono: this.formBuilder.control<string>('', Validators.required),
+      usuario_telefono: this.formBuilder.control<string>('', [
+        Validators.required,
+        telefonoValidator,
+      ]),
     });
   }
 
@@ -65,6 +69,8 @@ export class MiPerfil {
     if (this.form.valid) {
       this.patchUsuario(this.form.value);
     } else {
+
+      ///VALIDAR ERROR con modal
       console.log('No valido');
     }
   }

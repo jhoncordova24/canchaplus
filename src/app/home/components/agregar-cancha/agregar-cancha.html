@@ -1,0 +1,105 @@
+<app-agregar-cancha-dialog [isOpen]="isDialogCanchaOpen$()" [dataModal]="currentDialogCanchaData$()"
+    (onCloseModal)="handleDialogCanchaClose($event)" />
+<app-agregar-tarifa-dialog [isOpen]="isDialogTarifaOpen$()" [dataModal]="currentDialogTarifaData$()"
+    (onCloseModal)="handleDialogTarifaClose($event)" />
+<app-dialog-component [isOpen]="isDialogOpen$()" [dataModal]="currentDialogData$()"
+    (onCloseModal)="handleDialogClose($event)" />
+<!-- CONTENIDO CENTRAL -->
+<div class="p-10 flex justify-center pt-15">
+
+    <div
+        class="w-full max-w-6xl bg-neutral-900/70 backdrop-blur-md border border-lime-500/30 rounded-3xl shadow-xl p-10 text-gray-100">
+        <!-- CABECERA -->
+        <div class="flex flex-col md:flex-row items-center justify-between mb-8 border-b border-lime-500/20 pb-5">
+            <h2 class="text-3xl font-bold text-lime-400 tracking-tight flex items-center gap-3">
+                <i class="fa-solid fa-futbol"></i> Gestión de Canchas
+            </h2>
+
+            <button (click)="agregarCancha('crear')"
+                class="cursor-pointer bg-lime-500 hover:bg-lime-600 text-black font-semibold px-5 py-2 rounded-xl shadow-md transition flex items-center gap-2">
+                <i class="fa fa-plus"></i> Agregar Cancha
+            </button>
+        </div>
+        @if(!canchas){
+        <div class="flex justify-center items-center flex-col">
+            <span class="material-symbols-outlined spinner text-[#84cc16] !text-[200px] select-none">
+                autorenew
+            </span>
+            <p class="text-[15px] text-[#84cc16] text-center">Recuperando información...</p>
+        </div>
+        }@else{
+        @if(canchas.length === 0){
+        <p class="text-center text-gray-400 mt-10 italic">
+            Aún no has agregado ninguna cancha para administrar.
+        </p>
+        }@else{
+        <!-- LISTA DE CANCHAS -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            @for (c of canchas; track $index) {
+            <div
+                class="group bg-neutral-900/70 border border-lime-500/30 rounded-2xl shadow-md overflow-hidden backdrop-blur-md transition-all duration-300 hover:shadow-lime-400/30 hover:-translate-y-2">
+
+                <!-- IMAGEN -->
+                <img [src]="c.imagen || imgDefault" class="w-full h-44 object-cover border-b border-neutral-800" />
+
+                <div class="p-6">
+
+                    <!-- NOMBRE + EDITAR -->
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-xl font-semibold text-white group-hover:text-lime-300 transition">
+                            {{ c.cancha_nombre }} ({{c.tipocancha_nombre || ""}})
+                        </h3>
+
+                        <button (click)="actualizarCancha('update',c)"
+                            class="p-2 cursor-pointer text-lime-400 hover:text-lime-300 transition text-xl">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                    </div>
+
+                    <!-- ESTADO -->
+                    <div class="mb-4">
+                        <span class="text-xs font-semibold px-3 py-1 rounded-full uppercase border tracking-wide"
+                            [ngClass]="{
+                  'bg-green-600/20 text-green-400 border-green-500/30': c.cancha_estado === 'activa',
+                  'bg-yellow-600/20 text-yellow-400 border-yellow-500/30': c.cancha_estado === 'Mantenimiento',
+                  'bg-red-600/20 text-red-400 border-red-500/30': c.cancha_estado === 'No Disponible'
+                }">
+                            {{ c.cancha_estado || "Disponible" }}
+                        </span>
+                    </div>
+
+                    <!-- TARIFAS -->
+                    <h4 class="text-lg font-semibold mb-3 text-lime-300">Tarifas</h4>
+                    @if(c.tarifaActual) {
+                    <div
+                        class="bg-neutral-800 border border-neutral-700 rounded-xl p-3 mb-2 flex flex-col justify-between items-center">
+
+                        <span class="text-sm text-lime-300">Vigencia</span>
+                        <span class="text-sm mb-4">
+                            {{ c.tarifaActual.tarifa_fechainicio }} / {{ c.tarifaActual.tarifa_fechafin }}
+                        </span>
+
+                        <span class="text-sm text-lime-300">Precio</span>
+                        <span class="text-sm font-semibold">S/ {{ c.tarifaActual.tarifa_preciohora }}</span>
+
+                        <!-- No podrian ser editables por el historico de tarifas que se veria afectado
+                        <button class="cursor-pointer text-lime-400 hover:text-lime-300 transition">
+                            <i class="fa-solid fa-pen"></i>
+                        </button> -->
+                    </div>
+                    }
+                    <!-- BOTÓN AGREGAR TARIFA -->
+                    @else {
+                    <button (click)="agregarTarifa(c.cancha_nombre,c.cancha_id)"
+                        class="cursor-pointer mt-3 w-full bg-neutral-800 border border-neutral-700 hover:border-lime-400 text-lime-300 py-2 rounded-xl transition flex items-center justify-center gap-2">
+                        <i class="fa fa-plus"></i> Agregar Tarifa
+                    </button>
+                    }
+                </div>
+
+            </div>}
+        </div>
+        }
+        }
+    </div>
+</div>

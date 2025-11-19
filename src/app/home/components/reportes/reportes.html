@@ -11,9 +11,16 @@
           descargar reportes según tus necesidades.
         </p>
       </div>
-
+      @if(false){
+      <div class="flex justify-center items-center flex-col">
+        <span class="material-symbols-outlined spinner text-[#84cc16] !text-[200px] select-none">
+          autorenew
+        </span>
+        <p class="text-[15px] text-[#84cc16] text-center">Recuperando información...</p>
+      </div>
+      }@else {
       <!-- Resumen (cards) -->
-      <div class="grid gap-4 md:grid-cols-4 mb-8">
+      <div class="grid grid-cols-2 gap-4 md:grid-cols-4 mb-8">
         <div class="bg-[#0f1a0f]/80 border border-lime-700/40 rounded-xl p-4">
           <p class="text-xs uppercase tracking-wide text-gray-400">Reservas totales</p>
           <p class="mt-2 text-2xl font-bold text-white">{{ resumen.reservasTotales }}</p>
@@ -38,103 +45,76 @@
       <div class="mb-6 border-b border-gray-700">
         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-400">
           <li class="mr-4">
-            <button
-              type="button"
-              (click)="setTab('reservas')"
-              class="inline-flex items-center gap-2 p-2 border-b-2 rounded-t-lg"
-              [ngClass]="
+            <button type="button" (click)="setTab('reservas')"
+              class="cursor-pointer inline-flex items-center gap-2 p-2 border-b-2 rounded-t-lg" [ngClass]="
                 activeTab === 'reservas'
                   ? 'border-lime-500 text-lime-400'
                   : 'border-transparent text-gray-400 hover:text-gray-200 hover:border-gray-500'
-              "
-            >
+              ">
               Historial de reservas
             </button>
           </li>
           <li class="mr-4">
-            <button
-              type="button"
-              (click)="setTab('puntos')"
-              class="inline-flex items-center gap-2 p-2 border-b-2 rounded-t-lg"
-              [ngClass]="
+            <!-- <button type="button" (click)="setTab('puntos')"
+              class="cursor-pointer inline-flex items-center gap-2 p-2 border-b-2 rounded-t-lg" [ngClass]="
                 activeTab === 'puntos'
                   ? 'border-lime-500 text-lime-400'
                   : 'border-transparent text-gray-400 hover:text-gray-200 hover:border-gray-500'
-              "
-            >
+              ">
               Historial de puntos
-            </button>
+            </button> -->
           </li>
         </ul>
       </div>
 
       <!-- Contenido: Historial de reservas -->
-      <div class="space-y-6" *ngIf="activeTab === 'reservas'">
+      @if(activeTab === 'reservas'){
+      <div class="space-y-6">
         <!-- Filtros reservas -->
-        <div
-          class="bg-[#0f1a0f]/80 border border-gray-700 rounded-xl p-4 md:p-5 flex flex-col gap-4"
-        >
+        <div class="bg-[#0f1a0f]/80 border border-gray-700 rounded-xl p-4 md:p-5 flex flex-col gap-4">
           <div class="flex flex-col md:flex-row md:items-end gap-4">
             <div class="flex-1">
               <label class="block mb-1 text-xs font-medium text-gray-300"> Rango de fechas </label>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <input
-                  type="date"
-                  [(ngModel)]="filtros.fechaDesde"
-                  name="fechaDesde"
-                  class="block w-full rounded-lg border border-gray-700 bg-black/40 px-3 py-2 text-sm text-gray-100 placeholder-gray-400 outline-none focus:ring-2 focus:ring-lime-400"
-                />
-                <input
-                  type="date"
-                  [(ngModel)]="filtros.fechaHasta"
-                  name="fechaHasta"
-                  class="block w-full rounded-lg border border-gray-700 bg-black/40 px-3 py-2 text-sm text-gray-100 placeholder-gray-400 outline-none focus:ring-2 focus:ring-lime-400"
-                />
+                <input type="date" [(ngModel)]="filtros.fechaDesde" name="fechaDesde"
+                  class="block w-full rounded-lg border border-gray-700 bg-black/40 px-3 py-2 text-sm text-gray-100 placeholder-gray-400 outline-none focus:ring-2 focus:ring-lime-400" />
+                <input type="date" [(ngModel)]="filtros.fechaHasta" name="fechaHasta"
+                  class="block w-full rounded-lg border border-gray-700 bg-black/40 px-3 py-2 text-sm text-gray-100 placeholder-gray-400 outline-none focus:ring-2 focus:ring-lime-400" />
               </div>
             </div>
 
             <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label class="block mb-1 text-xs font-medium text-gray-300"> Estado </label>
-                <select
-                  [(ngModel)]="filtros.estado"
-                  name="estado"
-                  class="block w-full rounded-lg border border-gray-700 bg-black/40 px-3 py-2 text-sm text-gray-100 outline-none focus:ring-2 focus:ring-lime-400"
-                >
+                <select [(ngModel)]="filtros.estado" name="estado"
+                  class="block w-full rounded-lg border border-gray-700 bg-black/40 px-3 py-2 text-sm text-gray-100 outline-none focus:ring-2 focus:ring-lime-400">
                   <option value="">Todos</option>
-                  <option value="APROBADA">Aprobada</option>
-                  <option value="PENDIENTE">Pendiente</option>
-                  <option value="CANCELADA">Cancelada</option>
-                  <option value="NO_SHOW">No show</option>
+                  <option value="1">Pendiente</option>
+                  <option value="2">Pagado</option>
+                  <option value="3">Anulado</option>
+                  <option value="4">Aceptado</option>
+                  <option value="5">Finalizado</option>
                 </select>
               </div>
               <div>
                 <label class="block mb-1 text-xs font-medium text-gray-300"> Sede / Cancha </label>
-                <select
-                  [(ngModel)]="filtros.sede"
-                  name="sede"
-                  class="block w-full rounded-lg border border-gray-700 bg-black/40 px-3 py-2 text-sm text-gray-100 outline-none focus:ring-2 focus:ring-lime-400"
-                >
-                  <option value="">Todas</option>
-                  <option value="PIURA">Sede Piura</option>
-                  <option value="CASTILLA">Sede Castilla</option>
+                <select [(ngModel)]="filtros.sede" name="sede"
+                  class="block w-full rounded-lg border border-gray-700 bg-black/40 px-3 py-2 text-sm text-gray-100 outline-none focus:ring-2 focus:ring-lime-400">
+                  <option value="0">Todas</option>
+                  @for (cancha of canchasNombres; track $index) {
+                  <option [value]=cancha.id>{{cancha.nombre}}</option>
+                  }
                 </select>
               </div>
             </div>
 
             <div class="flex flex-row gap-2 md:flex-col md:w-40">
-              <button
-                type="button"
-                (click)="aplicarFiltros()"
-                class="w-full inline-flex justify-center rounded-lg px-4 py-2.5 text-sm font-medium bg-lime-600 hover:bg-lime-500 text-black focus:outline-none focus:ring-4 focus:ring-lime-400/40"
-              >
+              <button type="button" (click)="aplicarFiltros()"
+                class="cursor-pointer w-full inline-flex justify-center rounded-lg px-4 py-2.5 text-sm font-medium bg-lime-600 hover:bg-lime-500 text-black focus:outline-none focus:ring-4 focus:ring-lime-400/40">
                 Aplicar filtros
               </button>
-              <button
-                type="button"
-                (click)="limpiarFiltros()"
-                class="w-full inline-flex justify-center rounded-lg px-4 py-2.5 text-sm font-medium border border-gray-700 text-gray-200 hover:bg-gray-800"
-              >
+              <button type="button" (click)="limpiarFiltros()"
+                class="cursor-pointer w-full inline-flex justify-center rounded-lg px-4 py-2.5 text-sm font-medium border border-gray-700 text-gray-200 hover:bg-gray-800">
                 Limpiar
               </button>
             </div>
@@ -152,18 +132,12 @@
             control personal.
           </p>
           <div class="flex flex-wrap gap-2">
-            <button
-              type="button"
-              (click)="exportarReservasExcel()"
-              class="inline-flex items-center rounded-lg px-4 py-2 text-xs font-medium bg-lime-600 hover:bg-lime-500 text-black focus:outline-none focus:ring-4 focus:ring-lime-400/40"
-            >
+            <button type="button" (click)="exportarReservasExcel()"
+              class="cursor-pointer inline-flex items-center rounded-lg px-4 py-2 text-xs font-medium bg-lime-600 hover:bg-lime-500 text-black focus:outline-none focus:ring-4 focus:ring-lime-400/40">
               Exportar a Excel
             </button>
-            <button
-              type="button"
-              (click)="exportarReservasCsv()"
-              class="inline-flex items-center rounded-lg px-4 py-2 text-xs font-medium border border-gray-700 text-gray-200 hover:bg-gray-800"
-            >
+            <button type="button" (click)="exportarReservasCsv()"
+              class="cursor-pointer inline-flex items-center rounded-lg px-4 py-2 text-xs font-medium border border-gray-700 text-gray-200 hover:bg-gray-800">
               Exportar a CSV
             </button>
           </div>
@@ -179,44 +153,43 @@
                 <th scope="col" class="px-4 py-3">Sede / Cancha</th>
                 <th scope="col" class="px-4 py-3">Estado</th>
                 <th scope="col" class="px-4 py-3">Monto</th>
-                <th scope="col" class="px-4 py-3">Puntos</th>
+                <!-- <th scope="col" class="px-4 py-3">Puntos</th> -->
                 <th scope="col" class="px-4 py-3 text-right">Acciones</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let reserva of reservasFiltradas" class="border-t border-gray-800">
+              @for (reserva of reservasFiltradas; track $index) {
+              <tr class="border-t border-gray-800">
                 <td class="px-4 py-3 whitespace-nowrap">
-                  {{ reserva.fecha | date : 'dd/MM/yyyy' }}
+                  {{ reserva.reserva_fecha
+                  | date : 'dd/MM/yyyy' }}
                 </td>
-                <td class="px-4 py-3">{{ reserva.horario }}</td>
-                <td class="px-4 py-3">{{ reserva.sede }} - {{ reserva.cancha }}</td>
+                <td class="px-4 py-3">{{ reserva.reserva_horainicio }} - {{ reserva.reserva_horafin }}</td>
+                <td class="px-4 py-3">{{ reserva.cancha_nombre }} - {{ reserva.tipocancha_nombre }}</td>
                 <td class="px-4 py-3">
-                  <span
-                    class="inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium"
+                  <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium border"
                     [ngClass]="{
-                      'bg-emerald-900/50 text-emerald-300': reserva.estado === 'APROBADA',
-                      'bg-amber-900/50 text-amber-300': reserva.estado === 'PENDIENTE',
-                      'bg-red-900/50 text-red-300':
-                        reserva.estado === 'CANCELADA' || reserva.estado === 'NO_SHOW'
-                    }"
-                  >
-                    {{ reserva.estado | titlecase }}
+                      'bg-blue-600/20 text-blue-400 border-blue-500/30': reserva.estadoreserva_id === '4',
+                      'bg-yellow-600/20 text-yellow-400 border-yellow-500/30': reserva.estadoreserva_id === '1',
+                      'bg-green-600/20 text-green-400 border-green-500/30': reserva.estadoreserva_id === '2',
+                      'bg-gray-600/20 text-gray-400 border-gray-500/30': reserva.estadoreserva_id === '5',
+                      'bg-red-600/20 text-red-400  border-red-500/30': reserva.estadoreserva_id === '3'
+                    }">
+                    {{ reserva.estadoreserva_nombre | titlecase }}
                   </span>
                 </td>
-                <td class="px-4 py-3">S/ {{ reserva.monto | number : '1.2-2' }}</td>
-                <td class="px-4 py-3">
+                <td class="px-4 py-3">S/ {{ reserva.reserva_montototal | number : '1.2-2' }}</td>
+                <!-- <td class="px-4 py-3">
                   {{ reserva.puntos > 0 ? '+' + reserva.puntos : reserva.puntos }}
-                </td>
+                </td> -->
                 <td class="px-4 py-3 text-right">
-                  <button
-                    type="button"
-                    class="text-xs font-medium text-lime-400 hover:text-lime-300"
-                    (click)="verDetalleReserva(reserva)"
-                  >
+                  <button type="button" class="cursor-pointer text-xs font-medium text-lime-400 hover:text-lime-300"
+                    (click)="verDetalleReserva(reserva)">
                     Ver detalle
                   </button>
                 </td>
               </tr>
+              }
             </tbody>
           </table>
 
@@ -228,19 +201,14 @@
           </div>
         </div>
       </div>
-
+      }
+      @if(activeTab === 'puntos'){
       <!-- Sección: Historial de puntos -->
-      <div
-        class="mt-10 bg-[#0f1a0f]/80 border border-gray-700 rounded-xl p-4 md:p-5 space-y-4"
-        *ngIf="activeTab === 'puntos'"
-      >
+      <div class="mt-10 bg-[#0f1a0f]/80 border border-gray-700 rounded-xl p-4 md:p-5 space-y-4">
         <div class="flex items-center justify-between gap-3">
           <h3 class="text-base font-semibold text-white">Historial de puntos</h3>
-          <button
-            type="button"
-            (click)="exportarPuntosExcel()"
-            class="inline-flex items-center rounded-lg px-4 py-2 text-xs font-medium bg-lime-600 hover:bg-lime-500 text-black focus:outline-none focus:ring-4 focus:ring-lime-400/40"
-          >
+          <button type="button" (click)="exportarPuntosExcel()"
+            class="cursor-pointer inline-flex items-center rounded-lg px-4 py-2 text-xs font-medium bg-lime-600 hover:bg-lime-500 text-black focus:outline-none focus:ring-4 focus:ring-lime-400/40">
             Exportar a Excel
           </button>
         </div>
@@ -266,13 +234,10 @@
                 </td>
                 <td class="px-4 py-3">{{ mov.detalle }}</td>
                 <td class="px-4 py-3">
-                  <span
-                    class="inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium"
-                    [ngClass]="{
+                  <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium" [ngClass]="{
                       'bg-emerald-900/50 text-emerald-300': mov.tipo === 'CREDITO',
                       'bg-red-900/50 text-red-300': mov.tipo === 'DEBITO'
-                    }"
-                  >
+                    }">
                     {{ mov.tipo === 'CREDITO' ? 'Crédito' : 'Débito' }}
                   </span>
                 </td>
@@ -291,6 +256,8 @@
           </div>
         </div>
       </div>
+      }
+      }
     </div>
   </section>
 </div>

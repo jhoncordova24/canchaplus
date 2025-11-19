@@ -12,6 +12,14 @@ export class CanchaService {
 
   private readonly url = environment.api_url;
 
+  addCancha(data: any) {
+    return this._http.post(this.url + '/cancha/canchaAgregar', data);
+  }
+
+  updateCancha(data: any) {
+    return this._http.put(this.url + '/cancha/canchaActualizar', data);
+  }
+
   getCanchas() {
     return this._http.get(this.url + '/cancha/canchaObtenerTodas');
   }

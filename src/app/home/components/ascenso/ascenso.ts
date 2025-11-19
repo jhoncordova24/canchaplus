@@ -61,6 +61,15 @@ export class Ascenso implements OnInit {
     this.form.get('correo')?.patchValue(this.usuario.usuario_correo);
   }
 
+  dirtControls(control: any): void {
+    Object.keys(this.form.controls).forEach((key) => {
+      const control = this.form.get(key);
+      if (control && !control.dirty) {
+        control.markAsDirty();
+      }
+    });
+  }
+
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -135,6 +144,7 @@ export class Ascenso implements OnInit {
           });
       }
     } else {
+      this.dirtControls(this.form.controls);
       console.log('Form no valido');
     }
   }

@@ -10,7 +10,12 @@ export const roleGuard: CanActivateFn = (route, state) => {
 
   if (user.usuario_rol === '2') {
     //VALIDACIONES PARA CLIENTE
-    return true;
+    if (state.url.includes('home') && state.url.includes('gestionar')) {
+      router.navigateByUrl('/home/perfil');
+      return false;
+    } else {
+      return true;
+    }
   }
 
   if (user.usuario_rol === '1') {

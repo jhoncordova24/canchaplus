@@ -1,7 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';  
+import { CommonModule } from '@angular/common';
 import * as XLSX from 'xlsx';
+import { UserService } from '../../../core/services/user.service';
+import { User } from '../../../interfaces/user.interface';
+import { ReservaService } from '../../services/reserva.service';
+import { Reserva } from '../../../interfaces/reserva.interface';
 
 @Component({
   selector: 'app-reportes',
@@ -10,43 +14,15 @@ import * as XLSX from 'xlsx';
   templateUrl: './reportes.html',
   styleUrl: './reportes.scss',
 })
-export class Reportes {
-
+export class Reportes implements OnInit {
+  usuario!: User;
   activeTab: 'reservas' | 'puntos' = 'reservas';
 
   setTab(tab: 'reservas' | 'puntos') {
     this.activeTab = tab;
   }
-  
-  reservas = [
-    {
-      fecha: '2025-11-12',
-      horario: '20:00 - 21:00',
-      sede: 'PIURA',
-      cancha: 'Cancha 3',
-      estado: 'APROBADA',
-      monto: 60,
-      puntos: 20,
-    },
-    {
-      fecha: '2025-11-10',
-      horario: '19:00 - 20:00',
-      sede: 'CASTILLA',
-      cancha: 'Cancha 1',
-      estado: 'CANCELADA',
-      monto: 0,
-      puntos: 0,
-    },
-    {
-      fecha: '2025-11-05',
-      horario: '18:00 - 19:00',
-      sede: 'PIURA',
-      cancha: 'Cancha 2',
-      estado: 'PENDIENTE',
-      monto: 60,
-      puntos: 0,
-    },
-  ];
+
+  reservas!: Reserva[];
 
   puntos = [
     {
@@ -65,18 +41,16 @@ export class Reportes {
     },
   ];
 
-
   filtros = {
     fechaDesde: '',
     fechaHasta: '',
     estado: '',
-    sede: '',
+    sede: '0',
   };
 
- 
-  reservasFiltradas = [...this.reservas];
+  reservasFiltradas: Reserva[] = [];
   puntosFiltrados = [...this.puntos];
-
+  canchasNombres: any[] = [];
 
   resumen = {
     reservasTotales: 0,
@@ -85,47 +59,71 @@ export class Reportes {
     puntosActuales: 0,
   };
 
-  constructor() {
-    this.calcularResumen();
+  private readonly userService = inject(UserService);
+  private readonly reservaService = inject(ReservaService);
+
+  constructor() {}
+
+  ngOnInit(): void {
+    this.usuario = this.userService.getUser();
+    this.getReservas();
   }
 
- 
+  getReservas() {
+    this.reservaService.getReservasByIdUsuario(this.usuario.usuario_id, 1, 1000).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.reservas = response.data.lista;
+
+        const ids = new Set<number>();
+        this.canchasNombres = [];
+
+        for (const reserva of this.reservas) {
+          if (!ids.has(reserva.cancha_id as number)) {
+            ids.add(reserva.cancha_id as number);
+            this.canchasNombres.push({
+              id: reserva.cancha_id,
+              nombre: reserva.cancha_nombre,
+            });
+          }
+        }
+
+        this.calcularResumen();
+        this.reservasFiltradas = [...this.reservas];
+        console.log(this.canchasNombres);
+      },
+    });
+  }
+
   aplicarFiltros() {
     this.reservasFiltradas = this.reservas.filter((r) => {
-      const fecha = new Date(r.fecha);
+      const fecha = new Date(r.reserva_fecha);
 
-      const desde = this.filtros.fechaDesde
-        ? new Date(this.filtros.fechaDesde)
-        : null;
+      const desde = this.filtros.fechaDesde ? new Date(this.filtros.fechaDesde) : null;
 
-      const hasta = this.filtros.fechaHasta
-        ? new Date(this.filtros.fechaHasta)
-        : null;
+      const hasta = this.filtros.fechaHasta ? new Date(this.filtros.fechaHasta) : null;
 
-      const matchFecha =
-        (!desde || fecha >= desde) && (!hasta || fecha <= hasta);
+      const matchFecha = (!desde || fecha >= desde) && (!hasta || fecha <= hasta);
 
-      const matchEstado = this.filtros.estado
-        ? r.estado === this.filtros.estado
+      const matchEstado = this.filtros.estado ? r.estadoreserva_id === this.filtros.estado : true;
+
+      const matchSede = this.filtros.sede
+        ? r.cancha_id === this.filtros.sede || this.filtros.sede === '0'
         : true;
-
-      const matchSede = this.filtros.sede ? r.sede === this.filtros.sede : true;
 
       return matchFecha && matchEstado && matchSede;
     });
   }
 
- 
   limpiarFiltros() {
     this.filtros = {
       fechaDesde: '',
       fechaHasta: '',
       estado: '',
-      sede: '',
+      sede: '0',
     };
     this.reservasFiltradas = [...this.reservas];
   }
-
 
   verDetalleReserva(reserva: any) {
     console.log('Detalle de reserva:', reserva);
@@ -166,16 +164,12 @@ export class Reportes {
 
   calcularResumen() {
     this.resumen.reservasTotales = this.reservas.length;
-    this.resumen.reservasAprobadas = this.reservas.filter(
-      (r) => r.estado === 'APROBADA'
-    ).length;
+    this.resumen.reservasAprobadas = this.reservas.filter((r) => r.estadoreserva_id === '2').length;
 
-    this.resumen.canceladasNoShow = this.reservas.filter(
-      (r) => r.estado === 'CANCELADA' || r.estado === 'NO_SHOW'
-    ).length;
+    this.resumen.canceladasNoShow = this.reservas.filter((r) => r.estadoreserva_id === '3').length;
 
     this.resumen.puntosActuales = this.puntos.length
       ? this.puntos[this.puntos.length - 1].saldo
-      : 0;
+      : 400;
   }
 }

@@ -24,6 +24,7 @@ import {
 } from 'angular-calendar';
 import { fromZonedTime } from 'date-fns-tz';
 import { ActivatedRoute, Router } from '@angular/router';
+import { EstadoReserva } from '../../../shared/constants/reserva-estado';
 
 @Component({
   selector: 'app-calendario',
@@ -88,7 +89,9 @@ export class Calendario implements OnInit {
         return reservas.map((r: any) => ({
           start: fromZonedTime(r.reserva_fecha + ' ' + r.reserva_horainicio, 'America/Lima'),
           end: fromZonedTime(r.reserva_fecha + ' ' + r.reserva_horafin, 'America/Lima'),
-          title: fromZonedTime(r.reserva_fecha + ' ' + r.reserva_horainicio, 'America/Lima'),
+          title:
+            EstadoReserva.get(r.estadoreserva_id) ||
+            fromZonedTime(r.reserva_fecha + ' ' + r.reserva_horainicio, 'America/Lima'),
           meta: { reserva: r },
         }));
       }),

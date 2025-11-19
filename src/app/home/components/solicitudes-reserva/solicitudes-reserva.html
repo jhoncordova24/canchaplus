@@ -27,16 +27,17 @@
           <h4 class="text-lg font-semibold text-white group-hover:text-lime-300 transition-colors">
             {{ reserva.cancha_nombre }}
           </h4>
-          <span class="text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide" [ngClass]="{
-              'bg-green-600/20 text-green-400 border border-green-500/30': reserva.estadoreserva_id === '2',
-              'bg-yellow-600/20 text-yellow-400 border border-yellow-500/30': reserva.estadoreserva_id === '1',
-              'bg-red-600/20 text-red-400 border border-red-500/30': reserva.estadoreserva_id === '3',
-              'bg-blue-600/20 text-blue-400 border border-blue-500/30': reserva.estadoreserva_id === '4'
+          <span class="text-xs font-semibold px-3 py-1 rounded-full uppercase border tracking-wide" [ngClass]="{
+              'bg-green-600/20 text-green-400 border-green-500/30': reserva.estadoreserva_id === '2',
+              'bg-yellow-600/20 text-yellow-400 border-yellow-500/30': reserva.estadoreserva_id === '1',
+              'bg-red-600/20 text-red-400 border-red-500/30': reserva.estadoreserva_id === '3',
+              'bg-blue-600/20 text-blue-400 border-blue-500/30': reserva.estadoreserva_id === '4',
+              'bg-gray-600/20 text-gray-400 border-gray-500/30': reserva.estadoreserva_id === '5',
             }">
             {{ reserva.estadoreserva_id =="1" ? "Pendiente": (reserva.estadoreserva_id=="2" ? "Pagado":
             (reserva.estadoreserva_id=="3"
             ?
-            "Cancelado":(reserva.estadoreserva_id=="4"
+            "Anulado":(reserva.estadoreserva_id=="4"
             ?
             "Aceptado":"No definido")) ) }}
           </span>

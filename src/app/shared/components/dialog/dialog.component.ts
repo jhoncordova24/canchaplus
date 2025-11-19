@@ -13,7 +13,7 @@ export class DialogComponent {
   //   body: string; cuerpo del mensaje
   //   title: string; titulo del dialogo
   //   actions: boolean; se muestran las acciones de confirmar y cancelar o solo un boton de cerrar
-  //   icon?: string; icono opcional para el dialogo
+  //   icon?: string; icono opcional para el dialogo -- No implementado aun en template
   //   confirmLabel?: string; etiqueta del boton de confirmar
   //   discardLabel?: string; etiqueta del boton de cancelar
   //   payload?: any; datos adicionales que se pueden enviar al cerrar el dialogo
