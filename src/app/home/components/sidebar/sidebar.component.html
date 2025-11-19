@@ -5,7 +5,7 @@
       <div class="flex justify-start items-center">
         <button data-drawer-target="drawer-navigation" data-drawer-toggle="drawer-navigation"
           aria-controls="drawer-navigation"
-          class="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+          class="cursor-pointer p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
           <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd"
@@ -29,7 +29,7 @@
       </div>
       <div class="flex items-center lg:order-2">
         <button type="button"
-          class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-lime-800"
+          class="cursor-pointer flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-lime-800"
           id="user-menu-button" aria-expanded="false" data-dropdown-toggle="dropdown">
           <span class="sr-only">Open user menu</span>
           <svg class="w-7 h-7 text-lime-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
@@ -43,17 +43,20 @@
           class="hidden z-50 my-4 w-56 text-base list-none rounded divide-y divide-gray-100 shadow bg-black divide-gray-600 rounded-xl"
           id="dropdown">
           <div class="py-3 px-4">
-            <span class="block text-sm font-semibold text-white">{{usuario.usuario_nombres}}</span>
-            <span class="block text-sm truncate text-white">{{usuario.usuario_correo}}</span>
+            <span class="block text-sm font-semibold text-white">{{
+              usuario.usuario_nombres
+              }}</span>
+            <span class="block text-sm truncate text-white">{{ usuario.usuario_correo }}</span>
           </div>
           <ul class="py-1 text-gray-300" aria-labelledby="dropdown">
             <li>
-              <a href="/home/perfil" class="block py-2 px-4 text-sm hover:bg-lime-800 hover:text-white">Mi perfil</a>
+              <a routerLink="/home/perfil" class="block py-2 px-4 text-sm hover:bg-lime-800 hover:text-white">Mi
+                perfil</a>
             </li>
           </ul>
           <ul class="py-1 text-gray-300" aria-labelledby="dropdown">
             <li>
-              <a href="/" class="flex items-center py-2 px-4 text-sm hover:bg-lime-800 hover:text-white">
+              <a routerLink="/home" class="flex items-center py-2 px-4 text-sm hover:bg-lime-800 hover:text-white">
                 <svg class="mr-2 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd"
@@ -63,7 +66,7 @@
                 Mis puntos</a>
             </li>
             <li>
-              <a href="/home/ascenso"
+              <a routerLink="/home/ascenso"
                 class="flex justify-between items-center py-2 px-4 text-sm hover:bg-lime-800 hover:text-white">
                 <span class="flex items-center">
                   <svg aria-hidden="true" class="mr-2 w-5 h-5 text-primary-500" fill="currentColor" viewBox="0 0 20 20"
@@ -86,7 +89,7 @@
           <ul class="py-1 text-gray-300" aria-labelledby="dropdown">
             <li>
               <button (click)="logout()"
-                class="block w-full text-left py-2 px-4 text-sm hover:bg-lime-800 hover:text-white">
+                class="cursor-pointer block w-full text-left py-2 px-4 text-sm hover:bg-lime-800 hover:text-white">
                 Salir
               </button>
             </li>
@@ -103,7 +106,7 @@
     <div class="flex flex-col overflow-y-auto py-5 px-3 h-full bg-black border-r border-gray-700">
       <ul class="pt-5 mt-10 space-y-2">
         <li>
-          <a href="/"
+          <a routerLink="/home/reservas"
             class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-lime-800 text-white">
             <svg class="w-6 h-6 text-gray-800 text-lime-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
               width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -125,18 +128,30 @@
           </a>
         </li>
         <li>
-          <a href="/"
+          <a routerLink="/home/solicitudes"
             class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-lime-800 text-white">
             <svg class="w-6 h-6 text-gray-800 text-lime-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
               width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-3 5h3m-6 0h.01M12 16h3m-6 0h.01M10 3v4h4V3h-4Z" />
             </svg>
-            <span class="ml-3">Mis reservas</span>
+            <span class="ml-3">Reservas pendientes</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/home/reportes"
+            class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-lime-800 text-white">
+            <svg class="w-6 h-6 text-gray-800 text-lime-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+              width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10 3v4a1 1 0 0 1-1 1H5m4 10v-2m3 2v-6m3 6v-3m4-11v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1Z" />
+            </svg>
+            <span class="ml-3">Reportes</span>
           </a>
         </li>
       </ul>
       <ul class="pt-5 space-y-2 border-t border-gray-700 mt-auto">
+        @if(this.usuario.usuario_rol!=="1"){
         <li>
           <a routerLink="/home/ascenso"
             class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-lime-800 text-white">
@@ -149,7 +164,7 @@
 
             <span class="ml-3">¿Tienes canchas?</span>
           </a>
-        </li>
+        </li>}
         <li>
           <button (click)="logout()"
             class="flex w-full items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-lime-800 text-white group cursor-pointer">

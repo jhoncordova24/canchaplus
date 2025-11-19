@@ -14,4 +14,9 @@ export class UsuarioService {
   patchUsuario(idUsuario: string | number, data: User) {
     return this._http.put(this.url + `/usuario/usuarioActualizar/${idUsuario}`, data);
   }
+
+  //Patch estado se debe enviar {estado: "num"}
+  ascenderGerente(idUsuario: string | number, data: Partial<User>) {
+    return this._http.put(this.url + `/usuario/ascenderGerente/${idUsuario}`, data);
+  }
 }

@@ -1,0 +1,121 @@
+<app-dialog-component [isOpen]="isDialogOpen$()" [dataModal]="currentDialogData$()"
+    (onCloseModal)="handleDialogClose($event)" />
+<section class="py-6">
+    <div class="px-4 mx-auto max-w-screen-lg lg:px-8">
+        <div class="mx-auto max-w-2xl">
+            <!-- Encabezado -->
+            <div class="text-center mb-8">
+                <h2 class="mb-2 text-3xl md:text-4xl tracking-tight font-extrabold leading-tight text-white">
+                    Solicitud de
+                    <span class="text-lime-400">Gerente</span>
+                </h2>
+            </div>
+            @if(!solicitud)
+            {<div class="flex justify-center items-center flex-col">
+                <span class="material-symbols-outlined spinner text-[#84cc16] !text-[200px] select-none">
+                    autorenew
+                </span>
+                <p class="text-[15px] text-[#84cc16] text-center">Recuperando información...</p>
+            </div>
+            }@else{
+
+            <!-- Form -->
+            <form class="flex flex-col gap-y-4">
+                <!-- Nombres -->
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-100">
+                        Nombres y Apellidos
+                    </label>
+                    <p
+                        class="block w-full rounded-lg border border-lime-700 bg-[#0f1a0f]/80 px-4 py-2.5 text-gray-100 placeholder-gray-400 outline-none focus:ring-2 focus:ring-lime-400">
+                        {{solicitud.nombre}}
+                    </p>
+                </div>
+
+                <!-- Email + Teléfono -->
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-100">
+                            Correo electrónico
+                        </label>
+                        <p
+                            class="block w-full rounded-lg border border-lime-700 bg-[#0f1a0f]/80 px-4 py-2.5 text-gray-100 placeholder-gray-400 outline-none focus:ring-2 focus:ring-lime-400">
+                            {{solicitud.correo}}
+                        </p>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-100">
+                            Teléfono
+                        </label>
+                        <p
+                            class="block w-full rounded-lg border border-lime-700 bg-[#0f1a0f]/80 px-4 py-2.5 text-gray-100 placeholder-gray-400 outline-none focus:ring-2 focus:ring-lime-400">
+                            {{solicitud.telefono}}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Motivo -->
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-100">
+                        Motivo de la solicitud
+                    </label>
+                    <textarea rows="4" disabled readonly [value]="solicitud.motivo"
+                        placeholder="Explica por qué necesitas permisos de Administrador (detalla tus responsabilidades)."
+                        class="block w-full rounded-lg border border-lime-800 bg-[#0f1a0f]/80 px-4 py-2.5 text-gray-100 placeholder-gray-400 outline-none focus:ring-2 focus:ring-lime-400"></textarea>
+                </div>
+
+                @if(solicitud.imgUrl){
+                <!-- Imagen -->
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-100">
+                        Documentos adjuntados
+                    </label>
+                    <div>
+                        <img class="size-[120px]" [src]=solicitud.imgUrl alt="solicitud_img">
+                    </div>
+                    <a [href]="solicitud.imgUrl" target="_blank" rel="noopener noreferrer"
+                        class="inline-block mt-2 px-4 py-2 text-sm text-white font-medium bg-lime-600 hover:bg-lime-500 rounded-md transition">
+                        Ver imagen
+                    </a>
+                </div>
+                }
+
+                <!-- Experiencia -->
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-100">
+                        Experiencia / rol actual (opcional)
+                    </label>
+                    <p
+                        class="block w-full rounded-lg border border-lime-800 bg-[#0f1a0f]/80 px-4 py-2.5 text-gray-100 placeholder-gray-400 outline-none focus:ring-2 focus:ring-lime-400">
+                        {{solicitud.experiencia || "-"}}
+                    </p>
+                </div>
+
+                <!-- Botones -->
+                <div class="flex items-center gap-3 pt-2">
+                    <button type="button" (click)="submit()" [disabled]="processing"
+                        class="cursor-pointer inline-flex items-center rounded-lg px-5 py-2.5 text-sm font-medium bg-lime-600 hover:bg-lime-500 text-white focus:outline-none focus:ring-4 focus:ring-lime-400/40">
+                        @if(processing){
+                        <span class="material-symbols-outlined spinner text-[#84cc16] !text-sm select-none">
+                            autorenew
+                        </span>
+                        }@else{ Aprobar solicitud}
+                    </button>
+                    <button type="button" (click)="discard()" [disabled]="processing"
+                        class="cursor-pointer rounded-lg px-4 py-2.5 text-sm font-medium text-gray-200 bg-red-600 hover:bg-red-500">
+                        @if(processing){
+                        <span class="material-symbols-outlined spinner !text-sm select-none text-[#f87171]">
+                            autorenew
+                        </span>
+                        }@else{ Rechazar}
+                    </button>
+                    <button type="button" (click)="return()"
+                        class="cursor-pointer rounded-lg px-4 py-2.5 text-sm font-medium border border-gray-700 text-gray-200 hover:bg-gray-800">
+                        Volver
+                    </button>
+                </div>
+
+            </form>}
+        </div>
+    </div>
+</section>

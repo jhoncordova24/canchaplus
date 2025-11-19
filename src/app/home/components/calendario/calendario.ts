@@ -11,7 +11,7 @@ import {
 } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { format } from 'date-fns';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, of, startWith } from 'rxjs';
 import { calendarParameters, CustomDateFormatter } from './calendar-config';
 import {
   CalendarPreviousViewDirective,
@@ -84,12 +84,18 @@ export class Calendario implements OnInit {
     this.events$ = this.reservas$().pipe(
       map((response: any) => {
         console.log(response);
-        return response.data.reservas.map((r: any) => ({
+        const reservas = response.data.reservas || response.data.lista || [];
+        return reservas.map((r: any) => ({
           start: fromZonedTime(r.reserva_fecha + ' ' + r.reserva_horainicio, 'America/Lima'),
           end: fromZonedTime(r.reserva_fecha + ' ' + r.reserva_horafin, 'America/Lima'),
           title: fromZonedTime(r.reserva_fecha + ' ' + r.reserva_horainicio, 'America/Lima'),
           meta: { reserva: r },
         }));
+      }),
+      catchError((err) => {
+        console.error('Error al traer reservas', err);
+        // Devuelves un array vacío o un valor especial para que el template no se quede colgado
+        return of([]);
       })
     );
   }

@@ -1,4 +1,7 @@
-<div class="flex min-h-screen items-center justify-center bg-gradient-to-b from-[#0f1a0f] dark:bg-background-dark p-6 sm:p-8 lg:p-12">
+<app-dialog-component [isOpen]="isDialogOpen$()" [dataModal]="currentDialogData$()"
+    (onCloseModal)="handleDialogClose($event)" />
+<div
+    class="flex min-h-screen items-center justify-center bg-gradient-to-b from-[#0f1a0f] dark:bg-background-dark p-6 sm:p-8 lg:p-12">
     <div class="w-full mx-auto pt-6">
         <div class="flex flex-col gap-8">
             <div class="text-center">
@@ -45,7 +48,7 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 pb-1">Hora de
                                 Inicio</label>
-                            <input type="time" formControlName="reserva_horainicio"
+                            <input type="time" formControlName="reserva_horainicio" step="60"
                                 class="w-full rounded-lg border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-800 dark:text-gray-200 focus:border-lime-600 focus:ring-lime-600 h-14 px-4" />
                         </div>
 
@@ -83,31 +86,9 @@
                     </div>
                 </section>
                 <section class="space-y-6 border-t border-gray-200 dark:border-zinc-700 pt-6">
-                    <!-- <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
-                        <span class="material-symbols-outlined text-lime-600">credit_card</span>
-                        Método de Pago
-                    </h2>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <label
-                            class="flex items-center space-x-3 bg-gray-50 dark:bg-zinc-800 p-4 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-700 transition">
-                            <input type="radio" name="metodo-pago" value="tarjeta"
-                                class="text-lime-600 focus:ring-lime-600">
-                            <span class="text-gray-700 dark:text-gray-300">Tarjeta de Crédito / Débito</span>
-                        </label>
-
-                        <label
-                            class="flex items-center space-x-3 bg-gray-50 dark:bg-zinc-800 p-4 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-700 transition">
-                            <input type="radio" name="metodo-pago" value="efectivo"
-                                class="text-lime-600 focus:ring-lime-600">
-                            <span class="text-gray-700 dark:text-gray-300">Pago en Efectivo</span>
-                        </label>
-                    </div> -->
-
                     <div class="pt-6">
                         <button type="submit"
-                            class="w-full flex items-center justify-center rounded-lg bg-lime-600 px-6 py-4 text-base font-bold text-white shadow-sm hover:bg-lime-700 transition-colors duration-300">
-                            <!-- <span class="material-symbols-outlined text-white">money_bag</span> Proceder al Pago y -->
+                            class="cursor-pointer w-full flex items-center justify-center rounded-lg bg-lime-600 px-6 py-4 text-base font-bold text-white shadow-sm hover:bg-lime-700 transition-colors duration-300">
                             Confirmar Reserva
                         </button>
                     </div>

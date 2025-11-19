@@ -1,5 +1,5 @@
 export interface User {
-  usuario_id: number;
+  usuario_id: number| string;
   usuario_correo: string;
   usuario_nombres: string;
   usuario_rol: number | string;

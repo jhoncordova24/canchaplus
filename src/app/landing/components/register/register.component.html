@@ -1,3 +1,5 @@
+<app-dialog-component [isOpen]="isDialogOpen$()" [dataModal]="currentDialogData$()"
+    (onCloseModal)="handleDialogClose($event)" />
 <section class="flex items-center justify-center pt-6 pb-6 bg-gradient-to-b from-[#0f1a0f]/80 to-black">
     <div class="w-full max-w-[1200px] bg-neutral-900 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
         <!-- Left Section -->
@@ -107,7 +109,8 @@
                     <!-- Aceptar términos -->
                     @if(this.form.get("terms")!.dirty && this.form.get("terms")!.hasError("required")){
                     <span class="text-red-700 font-semibold text-[0.8rem]">Debes aceptar los términos y
-                        condiciones</span>}
+                        condiciones</span>
+                    }
                     <label class="flex items-center space-x-2 cursor-pointer">
                         <input type="checkbox" formControlName="terms"
                             class="rounded bg-neutral-900 border-gray-600 text-lime-600 focus:ring-lime-600" />
@@ -118,9 +121,17 @@
                     </label>
 
                     <!-- Botón de registro -->
-                    <button type="submit"
+                    <button type="submit" [disabled]="processing"
                         class="w-full bg-lime-600 text-white rounded-lg p-3 hover:bg-lime-700 transition-colors cursor-pointer">
-                        Crear cuenta
+                        @if(processing){
+                        <p class="flex items-center justify-center text-center">
+                            <span class="material-symbols-outlined spinner text-[#84cc16] select-none">
+                                autorenew
+                            </span> Registrando...
+                        </p>
+                        }@else{
+                        <p> Crear cuenta </p>
+                        }
                     </button>
                 </form>
             </div>

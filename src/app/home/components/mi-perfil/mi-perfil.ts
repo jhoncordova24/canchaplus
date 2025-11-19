@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { User } from '../../../interfaces/user.interface';
 import { UserService } from '../../../core/services/user.service';
@@ -7,20 +7,28 @@ import { format } from 'date-fns';
 import { NgClass } from '@angular/common';
 import { ReservaService } from '../../services/reserva.service';
 import { UsuarioService } from '../../services/usuario.service';
+import { DialogComponent } from '../../../shared/components/dialog/dialog.component';
+import { DataDialog, Result } from '../../../interfaces/data-dialog.interface';
 
 @Component({
   selector: 'app-mi-perfil',
   standalone: true,
-  imports: [ReactiveFormsModule, NgClass],
+  imports: [ReactiveFormsModule, NgClass, DialogComponent],
   templateUrl: './mi-perfil.html',
 })
 export class MiPerfil {
   usuario!: User;
-  puntos = 2450;
+  puntos = 1000;
   puntosMax = 5000;
   editMode = false;
   form!: FormGroup;
-  ultimasReservas: any[] = [];
+  ultimasReservas!: any[];
+  isDialogOpen$ = signal(false);
+  currentDialogData$ = signal<DataDialog>({
+    title: '',
+    body: '',
+    actions: true,
+  });
 
   private readonly userService = inject(UserService);
   private readonly reservaService = inject(ReservaService);
@@ -29,7 +37,6 @@ export class MiPerfil {
 
   constructor() {
     this.form = this.formBuilder.group({
-      usuario_correo: this.formBuilder.control<string>('', Validators.required),
       usuario_nombres: this.formBuilder.control<string>('', Validators.required),
       usuario_telefono: this.formBuilder.control<string>('', Validators.required),
     });
@@ -40,6 +47,10 @@ export class MiPerfil {
     this.fillUser();
     this.form.patchValue(this.usuario);
     this.getUltimasReservas();
+  }
+
+  get porcentajeProgreso() {
+    return Math.min((this.puntos / this.puntosMax) * 100, 100);
   }
 
   habilitarEdicion() {
@@ -53,8 +64,6 @@ export class MiPerfil {
   guardar() {
     if (this.form.valid) {
       this.patchUsuario(this.form.value);
-      this.editMode = false;
-      alert('✅ Perfil actualizado correctamente');
     } else {
       console.log('No valido');
     }
@@ -63,11 +72,23 @@ export class MiPerfil {
   patchUsuario(data: User) {
     this.usuarioService.patchUsuario(this.usuario.usuario_id, data).subscribe({
       next: (response: any) => {
-        console.log(response);
+        this.openConfirmDialog({
+          title: 'Perfil actualizado',
+          body: response.message || 'Su perfil ha sido actualizado correctamente.',
+          actions: false,
+        });
+        this.editMode = false;
         this.userService.saveUser(response.data);
         this.fillUser();
       },
       error: (err) => {
+        this.editMode = false;
+        this.openConfirmDialog({
+          title: 'Error al actualizar',
+          body: 'Hubo un error al actualizar su perfil. Por favor, intente nuevamente.',
+          actions: false,
+        });
+        this.form.patchValue(this.usuario);
         console.log(err);
       },
     });
@@ -86,12 +107,20 @@ export class MiPerfil {
         console.log(response);
       },
       error: (error) => {
+        this.ultimasReservas = [];
         console.log(error);
       },
     });
   }
 
-  get porcentajeProgreso() {
-    return Math.min((this.puntos / this.puntosMax) * 100, 100);
+  openConfirmDialog(data: DataDialog): void {
+    this.currentDialogData$.set(data);
+    this.isDialogOpen$.set(true);
+  }
+
+  handleDialogClose(result: Result): void {
+    // Cierra el modal visualmente
+    this.isDialogOpen$.set(false);
+    console.log(result);
   }
 }

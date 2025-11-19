@@ -16,7 +16,7 @@ export class CanchaService {
     return this._http.get(this.url + '/cancha/canchaObtenerTodas');
   }
 
-  getCanchasByAdmin(idAdmin: number) {
+  getCanchasByAdmin(idAdmin: number | string) {
     return this._http.get(this.url + `/cancha/canchaObtenerPorAdmin/${idAdmin}`);
   }
 
