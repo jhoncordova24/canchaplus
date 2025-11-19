@@ -13,16 +13,15 @@ import { format } from 'date-fns-tz';
   styleUrl: './fecha.scss',
 })
 export class Fecha implements OnInit {
-  private idCancha!: string;
-  reservasMonthView = [];
-  reservas$: any;
-
   private readonly router = inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly cryptoService = inject(CryptoService);
   private readonly reservaService = inject(ReservaService);
   private readonly canchaService = inject(CanchaService);
+  private idCancha!: string;
 
+  reservasMonthView = [];
+  reservas$: any;
   constructor() {
     this.activatedRoute.params.subscribe((params) => {
       this.idCancha = this.cryptoService.desencriptar(params['idCancha']);

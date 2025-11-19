@@ -42,7 +42,6 @@ export class SidebarComponent implements OnInit {
       icon: 'confirmation_number',
       label: 'Mis Reservas',
     },
-    
   ];
 
   logout() {

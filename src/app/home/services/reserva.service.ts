@@ -28,16 +28,7 @@ export class ReservaService {
       this.url + `/reserva/reservaObtenerPorUsuario/${idUsuario}/${pagina}/${cantidadRegistros}`
     );
   }
-
-  getReservasPendientesByCliente(idUsuario: string | number) {
-    return this._http.get(this.url + `/reserva/reservasPendientesByCliente/${idUsuario}`);
-  }
-
   getReservasPendientesByCanchaId(idCancha: string | number) {
     return this._http.get(this.url + `/reserva/reservasPendientesByCancha/${idCancha}`);
-  }
-
-  patchReserva(reserva: Reserva) {
-    return this._http.put(this.url + `/reserva/reservaActualizar`, reserva,);
   }
 }

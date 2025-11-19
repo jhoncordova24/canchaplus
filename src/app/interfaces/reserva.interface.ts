@@ -1,6 +1,6 @@
 export interface Reserva {
   cancha_id: number;
-  usuario_id: number | string;
+  usuario_id: number;
   reserva_fecha: string | Date;
   reserva_horainicio: string;
   reserva_horafin: string;

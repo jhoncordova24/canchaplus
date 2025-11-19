@@ -9,8 +9,6 @@ import { TarifaService } from '../../../services/tarifa.service';
 import { Tarifa } from '../../../../interfaces/tarifa.interface';
 import { format } from 'date-fns';
 import { fromZonedTime } from 'date-fns-tz';
-import { UserService } from '../../../../core/services/user.service';
-import { User } from '../../../../interfaces/user.interface';
 
 @Component({
   selector: 'app-canchas',
@@ -21,21 +19,16 @@ import { User } from '../../../../interfaces/user.interface';
 export class Canchas implements OnInit {
   canchas!: Cancha[];
   tarifas: Tarifa[] = [];
-  canchasConTarifa: any[] = [];
-  usuario!: User;
-
   hoy: string = format(fromZonedTime(new Date(), 'America/Lima'), 'yyyy-MM-dd');
-
   private readonly router = inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly canchaService = inject(CanchaService);
   private readonly cryptoService = inject(CryptoService);
   private readonly tarifaService = inject(TarifaService);
-  private readonly userService = inject(UserService);
+  canchasConTarifa: any[] = [];
 
   ngOnInit(): void {
     this.getCanchas();
-    this.usuario = this.userService.getUser();
   }
 
   reservar(id: string | number) {
@@ -46,11 +39,7 @@ export class Canchas implements OnInit {
     this.canchaService.getCanchas().subscribe((response: any) => {
       const canchas = response.data;
 
-      const canchasFiltradas = canchas.filter(
-        (cancha: any) => cancha.usuario_id !== this.usuario.usuario_id
-      );
-
-      const llamadasTarifa = canchasFiltradas.map((cancha: any) =>
+      const llamadasTarifa = canchas.map((cancha: any) =>
         this.tarifaService.getTarifaByCanchaId(cancha.cancha_id, this.hoy).pipe(
           map((tarifaResponse: any) => {
             const tarifas = tarifaResponse?.data;
