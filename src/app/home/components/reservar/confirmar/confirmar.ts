@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CanchaService } from '../../../services/cancha.service';
 import { Cancha } from '../../../../interfaces/cancha.interface';
 import { Hora } from './tiempo.interface';
@@ -15,10 +15,12 @@ import { Tarifa } from '../../../../interfaces/tarifa.interface';
 import { UserService } from '../../../../core/services/user.service';
 import { User } from '../../../../interfaces/user.interface';
 import { ReservaService } from '../../../services/reserva.service';
+import { DialogComponent } from '../../../../shared/components/dialog/dialog.component';
+import { DataDialog, Result } from '../../../../interfaces/data-dialog.interface';
 
 @Component({
   selector: 'app-confirmar',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, DialogComponent],
   templateUrl: './confirmar.html',
   styleUrl: './confirmar.scss',
 })
@@ -32,6 +34,13 @@ export class Confirmar implements OnInit {
   private fechaReserva!: string;
   hoy: string = format(fromZonedTime(new Date(), 'America/Lima'), 'yyyy-MM-dd');
   user!: User;
+
+  isDialogOpen$ = signal(false);
+  currentDialogData$ = signal<DataDialog>({
+    title: '',
+    body: '',
+    actions: true,
+  });
 
   private readonly canchaService = inject(CanchaService);
   private readonly router = inject(Router);
@@ -65,7 +74,7 @@ export class Confirmar implements OnInit {
       cancha_id: this.idCancha,
       usuario_id: this.user.usuario_id,
       reserva_fecha: format(this.fechaReserva, 'yyyy-MM-dd'),
-      reserva_horainicio: format(this.fechaReserva, 'hh:mm:ss'),
+      reserva_horainicio: format(this.fechaReserva, 'HH:mm'),
       reserva_horafin: '',
       estadoreserva_id: 1,
       reserva_montototal: 0,
@@ -112,8 +121,12 @@ export class Confirmar implements OnInit {
 
   validateHour(data: any) {
     const fecha = data.reserva_fecha;
-    const horaInicio = data.reserva_horainicio;
+    let horaInicio = data.reserva_horainicio;
+    // Normalizar hora por conflictos con Chrome HH:mm y deberia ser HH:mm:ss
+    if (horaInicio.length === 5) horaInicio = horaInicio + ':00';
+
     const duracion = data.horas;
+    console.log(data.reserva_horainicio);
     const fechaHoraInicioStr = `${fecha} ${horaInicio}`;
     const fechaHoraInicio = parse(fechaHoraInicioStr, 'yyyy-MM-dd HH:mm:ss', new Date());
     const fechaHoraFin = addHours(fechaHoraInicio, duracion);
@@ -125,6 +138,25 @@ export class Confirmar implements OnInit {
     this.reservaService.addReserva(data).subscribe({
       next: (response: any) => {
         console.log(response);
+        if (response.success) {
+          const data: DataDialog = {
+            title: 'Reserva solicitada',
+            body: 'La reserva se ha realizado con éxito. Por favor, proceda al pago para confirmar su reserva.',
+            actions: false,
+            payload: { redirect: true },
+          };
+          this.openConfirmDialog(data);
+        }
+      },
+      error: (error) => {
+        console.error(error);
+        const data: DataDialog = {
+          title: 'Error al reservar',
+          body: error.error.message,
+          actions: false,
+          payload: { redirect: false },
+        };
+        this.openConfirmDialog(data);
       },
     });
   }
@@ -136,6 +168,24 @@ export class Confirmar implements OnInit {
       this.addReserva(data);
     } else {
       console.log('No valido:', this.form.value);
+    }
+  }
+
+  openConfirmDialog(data: DataDialog): void {
+    this.currentDialogData$.set(data);
+    this.isDialogOpen$.set(true);
+  }
+
+  handleDialogClose(result: Result): void {
+    // Cierra el modal visualmente
+    this.isDialogOpen$.set(false);
+    console.log(result);
+
+    // Lógica de negocio basada en el resultado
+    if (result.body.redirect) {
+      this.router.navigate(['/home/reservar']);
+    } else {
+      console.log('No hay redirección.');
     }
   }
 }

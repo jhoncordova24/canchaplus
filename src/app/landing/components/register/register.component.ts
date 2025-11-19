@@ -1,34 +1,42 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Register } from '../../../interfaces/register.interface';
 import { passwordMatchValidator } from '../../../shared/validators/passwordMatchValidator';
 import { AuthService } from '../../../core/services/auth.service';
 import { telefonoValidator } from '../../../shared/validators/telefonoValidator';
 import { passwordStrengthValidator } from '../../../shared/validators/passwordFuerteValidator';
+import { DialogComponent } from '../../../shared/components/dialog/dialog.component';
+import { DataDialog, Result } from '../../../interfaces/data-dialog.interface';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule, DialogComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
-  private readonly formBuilder = inject(FormBuilder);
-
-  private readonly authService = inject(AuthService);
   form: FormGroup;
-
   mostrarConfirmPassword = false;
   mostrarPassword = false;
+  isDialogOpen$ = signal(false);
+  currentDialogData$ = signal<DataDialog>({
+    title: '',
+    body: '',
+    actions: true,
+  });
+  processing: boolean = false;
+
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   constructor() {
     this.form = this.formBuilder.group(
@@ -52,6 +60,7 @@ export class RegisterComponent {
       { validators: passwordMatchValidator }
     );
   }
+
   register() {
     if (this.form.valid) {
       const data: Register = this.form.getRawValue();
@@ -59,7 +68,22 @@ export class RegisterComponent {
         next: (response: any) => {
           console.log(response);
           this.form.reset();
-          //show modal
+          this.openConfirmDialog({
+            title: 'Registro exitoso',
+            body: 'Tu cuenta ha sido creada exitosamente.',
+            actions: false,
+            payload: { redirect: true },
+          });
+        },
+        error: (err) => {
+          console.log(err);
+          this.openConfirmDialog({
+            title: 'Error en el registro',
+            body:
+              err.error.message ||
+              'Ha ocurrido un error al crear tu cuenta. Por favor, intenta nuevamente más tarde.',
+            actions: false,
+          });
         },
       });
     } else {
@@ -80,7 +104,26 @@ export class RegisterComponent {
   showPassword(control: AbstractControl): void {
     this.mostrarPassword = !this.mostrarPassword;
   }
+
   showConfirmPassword(control: AbstractControl): void {
     this.mostrarConfirmPassword = !this.mostrarConfirmPassword;
+  }
+
+  openConfirmDialog(data: DataDialog): void {
+    this.currentDialogData$.set(data);
+    this.isDialogOpen$.set(true);
+  }
+
+  handleDialogClose(result: Result): void {
+    // Cierra el modal visualmente
+    this.isDialogOpen$.set(false);
+    console.log(result);
+
+    // Lógica de negocio basada en el resultado
+    if (result.body.redirect) {
+      this.router.navigate(['/landing/login']);
+    } else {
+      console.log('No hay redirección.');
+    }
   }
 }

@@ -1,14 +1,11 @@
 import { CanActivateFn, Router } from '@angular/router';
-import { UserService } from '../services/user.service';
 import { inject } from '@angular/core';
-import { User } from '../../interfaces/user.interface';
 
 export const sessionGuard: CanActivateFn = (route, state) => {
-  const userService = inject(UserService);
-  let user: User = userService.getUser();
-  if (!user) {
+  let jwt: string | null = localStorage.getItem('token');
+  if (!jwt) {
     const router = inject(Router);
-    router.navigateByUrl('/landing');
+    router.navigateByUrl('/not-authorized');
     return false;
   }
   return true;

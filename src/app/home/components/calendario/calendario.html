@@ -63,14 +63,16 @@
         [viewDate]="viewDate" [events]="events" (eventClicked)="eventClicked($event.event)">
       </mwl-calendar-day-view>}
       }
-      <mwl-calendar-day-view class="md:hidden" (hourSegmentClicked)="hourClicked($event.date)" [viewDate]="viewDate" [events]="events"
-        (eventClicked)="eventClicked($event.event)">
+      <mwl-calendar-day-view class="md:hidden" (hourSegmentClicked)="hourClicked($event.date)" [viewDate]="viewDate"
+        [events]="events" (eventClicked)="eventClicked($event.event)">
       </mwl-calendar-day-view>
     </div>
     }@else {
-    <div class="grid justify-items-center">
-      <!-- <mat-spinner class="spinner" color="primary"></mat-spinner> -->
-      <p> Recuperando información...</p>
+    <div class="flex justify-center items-center flex-col">
+      <span class="material-symbols-outlined spinner text-[#84cc16] !text-[200px] select-none">
+        autorenew
+      </span>
+      <p class="text-[15px] text-[#84cc16] text-center">Recuperando información...</p>
     </div>}
   </div>
 </div>
